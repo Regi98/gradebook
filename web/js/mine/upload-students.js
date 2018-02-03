@@ -7,7 +7,6 @@ $(document).ready(function() {
   $("#tableCSV").hide();
   $("#status").fadeOut(); // will first fade out the loading animation
   $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
-          //DATA START! ==============
 });
 
 $(function() {
@@ -66,7 +65,7 @@ $(function() {
         if (role == "Admin") {
 
 
-          
+
           //INSERT HEADER
           $('#sectionData').on('change', function() {
             $('#tableCSV').remove();
@@ -148,7 +147,7 @@ $(function() {
 
 
             });
-         
+
  */
           //CSV TO TEXTBOX
           const uploadCSV = document.getElementById('uploadCSVaccounts');

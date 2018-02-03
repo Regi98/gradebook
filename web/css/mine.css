@@ -66,7 +66,7 @@ th span {
     left:0;
     right:0;
     bottom:0;
-     background: #2c3e50 ; 
+     background: #2c3e50 ;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -97,7 +97,7 @@ th span {
   height: 100%;
   width: 6px;
   display: inline-block;
-  
+
   -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
   animation: stretchdelay 1.2s infinite ease-in-out;
 }
@@ -123,16 +123,80 @@ th span {
 }
 
 @-webkit-keyframes stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
   20% { -webkit-transform: scaleY(1.0) }
 }
 
 @keyframes stretchdelay {
-  0%, 40%, 100% { 
+  0%, 40%, 100% {
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
-  }  20% { 
+  }  20% {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
+}
+
+/*VALIDATION*/
+
+body {
+  direction: ltr;
+}
+
+.error {
+  color: darkred;
+  position: relative;
+}
+.error .input-group-addon {
+  background: rgba(139, 0, 0, 0.32);
+  border: 1px solid darkred;
+  border-left: none;
+}
+.error input {
+  transition: all 400ms;
+  border-color: darkred !important;
+}
+.error input::-webkit-input-placeholder {
+  opacity: 0.6;
+  color: darkred;
+}
+.input-group input{
+  width: 1px;
+}
+.valid {
+  color: darkgreen;
+}
+.valid .input-group-addon {
+  background: rgba(0, 139, 0, 0.32);
+  border: 1px solid darkgreen;
+  border-left: none;
+}
+.valid input {
+  transition: all 400ms;
+  border-color: darkgreen !important;
+}
+.valid input::-webkit-input-placeholder {
+  opacity: 0.6;
+  color: darkgreen;
+}
+
+.form-title {
+  padding: 5px 10px;
+}
+
+.log {
+  display: none;
+  font-weight: bold;
+  font-size: 13px;
+  background: rgba(255, 50, 2, 0.7);
+  padding: 10px 30px;
+}
+.log p {
+  display: list-item;
+  color: black;
+}
+#validate-form label.error {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
 }
