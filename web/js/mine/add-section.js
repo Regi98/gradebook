@@ -602,7 +602,7 @@ $(function() {
               }
             }
           }
-          // Tests to see if /sections/ has any data. 
+          // Tests to see if /sections/ has any data.
           function checkIfSectionExists(sectionName) {
             refSections.orderByChild("secName").equalTo(sectionName).once("value", function(snapshot) {
               var exists = (snapshot.val() !== null);
@@ -673,7 +673,7 @@ $(function() {
           });
           //EDIT
           $("#datatable-buttons").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
-            
+
             $(this).removeClass().addClass("fa fa-envelope-o");
             var $row = $(this).closest("tr").off("mousedown");
             var $tds = $row.find("td").not(':first').not(':last').not('td:nth-child(2)').not('td:nth-child(5)');
@@ -700,7 +700,7 @@ $(function() {
             var parentKey = $row.find(".sorting_1").html();
             //Array of entities
             var entity = ["secName", "secGrade"];
-            // loop all td    
+            // loop all td
             $.each($tds, function(i, el) {
               //get value of each td
               var txt = $(this).find("input").val();

@@ -14016,7 +14016,6 @@ MINE START
   width: 100%;
   height: 100vh;
   background-color: #232323;
-  background-image: url("../images/wings.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -14069,7 +14068,7 @@ MINE START
   border: none;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  color: #E7E7E7;
+  color: #ffffff;
   font-size: 0.8rem;
   outline: 0;
 

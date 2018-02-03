@@ -22,10 +22,10 @@ $(document).ready(function () {
   console.log("jcfc_admin");
   console.log("!WebJCFCAdmin1994");
 
-  console.log("\n\n001");
+  console.log("\n\n9101");
   console.log("123456");
 
- 
+
 // SUBMIT LOGIN EVENT
 $(document).keypress(function (e) {
 //LOGIN USING ENTER KEY
@@ -49,7 +49,7 @@ if (e.which == 13) {
 
 // LOGIN USING BUTTON
 btnLogin.addEventListener('click', e  => {
-  
+
   $("#status").fadeIn(); // will first fade out the loading animation
   $("#preloader").delay(500).fadeIn("slow"); // will fade out the white DIV that covers the website.
   event.preventDefault();
@@ -66,7 +66,7 @@ btnLogin.addEventListener('click', e  => {
    // Realtime listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser){
-      const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);  
+      const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);
           refUsers.once("value", function(snapshot) {
           var data = snapshot.val();
           console.log(data);
@@ -98,7 +98,7 @@ btnLogin.addEventListener('click', e  => {
   // Realtime listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser){
-      const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);  
+      const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);
           refUsers.once("value", function(snapshot) {
           var data = snapshot.val();
           console.log(data);

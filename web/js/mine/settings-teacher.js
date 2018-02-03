@@ -101,8 +101,16 @@ $(window).on('load', function() {
                   currentUser.updateProfile({
                     displayName: newFullname
                   }).then(function() {
-                    // Update successful.
-                    $('#alert-success-name').removeClass('hide');
+                    // Update successful auth.
+                    var updateName = {};
+                    updateName = {
+                      fullname: newFullname
+                    };
+                    refTeachers.update(updateName).then(function() {
+                      $('#alert-success-name').removeClass('hide');
+                    }).catch(function(error) {
+                      $('#alert-danger-name').removeClass('hide');
+                    });
                   }).catch(function(error) {
                     // An error happened.
                     $('#alert-danger-name').removeClass('hide');
