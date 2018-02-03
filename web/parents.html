@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Accounts | Parents</title>
+  
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <link rel="shortcut icon" href="images/favicon.png" />
+  <!-- Datatables -->
+
+    <link href="vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/jquery-ui-dist/jquery-ui.css">
+    
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mine.css" />
+</head>
+
+<body>
+  <div id="preloader">
+  <div id="status">
+     <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</div>
+  <div class=" container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="bg-white text-center navbar-brand-wrapper">
+        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo_star_black.png" /></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo_star_mini.jpg" alt=""></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="form-inline mt-2 mt-md-0 d-none d-lg-block">
+          <input class="form-control mr-sm-2 search" type="text" placeholder="Search">
+        </form>
+        <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+          <li class="nav-item">
+            <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="images/jcfc-logo.png" alt=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="btnLogout"><i class="fa fa-sign-out"></i></a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- partial -->
+    <div class="container-fluid">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+          <div class="user-info">
+            <img src="images/jcfc-logo.png" alt="">
+            <p class="name">Philip Tayao</p>
+            <p class="designation">Admin</p>
+            <span class="online"></span>
+          </div>
+          <ul class="nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="home.html">
+                <img src="images/icons/1.png" alt="">
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
+                <img src="images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="students">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="upload-students.html">
+                      Upload Students
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="list-students.html">
+                      List of Students
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#teachers" aria-expanded="false" aria-controls="teachers">
+                <img src="images/icons/017-diamond.png" alt="">
+                <span class="menu-title">Teachers<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="teachers">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="upload-teachers.html">
+                      Upload Teachers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="list-teachers.html">
+                      List of Teachers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="teachers-subject.html">
+                      Assign Subjects
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="add-section.html">
+                <img src="images/icons/4.png" alt="">
+                <span class="menu-title">Section</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="parents.html">
+                <img src="images/icons/005-forms.png" alt="">
+                <span class="menu-title">Parents</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- partial -->
+        <div class="content-wrapper">
+        <h3 class="page-heading mb-4">Manage Parents</h3>
+          <div class="row mb-2">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Parent Creation</h5><hr>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <div id="alert-success" class="alert alert-success hide">
+                        <strong>Success!</strong> Parent has been created.
+                      </div>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris volutpat, lacus vitae vestibulum mollis, lorem felis cursus augue, sed viverra lorem urna ac mi.</p>
+                        <p><b>Parent full name:</b></p>
+                          <input type="text" class="form-control p-input" id="parentName" placeholder="i.e. John Doe">
+                      <p><b>Parent username:</b></p>
+                          <input type="text" class="form-control p-input" id="parentUser" placeholder="i.e. johndoe">
+                      <!--<div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>-->
+                    </div>
+<div class="form-group">
+</div>
+                    <div class="form-group">
+                      <button type="button" id="createParent" class="btn btn-warning pull-right">Create Account</button>
+                    </div>
+                    <div class="form-group">
+                      
+                    </div>
+                    <div id="tableCSV">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Parents Tab</h5><hr>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris volutpat, lacus vitae vestibulum mollis, lorem felis cursus augue, sed viverra lorem urna ac mi.</p>
+                        <p><b>Parent name:</b></p>
+                     
+                          <input type="text" class="form-control p-input" id="parentNames">
+                                
+                      <div id="tags">
+                        <p><b>Child:</b></p>
+                          <input type="text" class="form-control p-input" id="childrenNames"><br>
+                          <div id="append">
+                            
+                          </div>
+ 
+                
+                      </div>
+                      <div id="tagsName">
+                            
+                      </div>       
+                      <!--<div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>-->
+                    </div>
+                    <div class="form-group">
+                    <div class="alert alert-warning">
+                      <h6>Few Reminders</h6>
+                        This tab is intended for the initial start of school years. This is where all accounts are created once a school year starts. Further editing of accounts shall be on the <a href="#">accounts page.</a><br><br>
+                        DEFAULT PASSWORD IS: 123456
+                    </div>
+                    <div class="alert alert-primary">
+                      <h6>Directions</h6>
+                        1. Choose a section to create accounts with.<br>
+                           2. Select the CSV file containing student accounts.<br>
+                           3. Click on 'Load file' to process data.<br>
+                           4. Click on 'Create accounts' to send to database.
+                    </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" id="uploadCSVaccounts" class="btn btn-success pull-right">Link</button>
+                    </div>
+                    <div class="form-group">
+                      
+                    </div>
+                    <div id="tableCSV">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Student Accounts</h5><hr>
+                    <div id="alert-success-add-student" class="alert alert-success hide">
+                      <strong>Success!</strong> Student has ben added.
+                    </div>
+                    <div id="alert-danger-add-student" class="alert alert-success hide">
+                      <strong>Error!</strong> Student has not ben added..
+                    </div>
+                    <p>Choose from the following options below to display data from a specific section.</p>
+                    <div class="col-md-3">
+                      <select id="sectionData" class="form-control" width="30%">
+                        <option disabled selected>Select section</option>
+                        <option value="Section-7A">Section-7A</option>
+                        <option value="Section-7B">Section-7B</option>
+                        <option value="Section-7C">Section-7C</option>
+                        <option value="Section-8A">Section-8A</option>
+                        <option value="Section-8B">Section-8B</option>
+                        <option value="Section-8C">Section-8C</option>
+                        <option value="Section-9A">Section-9A</option>
+                        <option value="Section-9B">Section-9B</option>
+                        <option value="Section-9C">Section-9C</option>
+                        <option value="Section-10A">Section-10A</option>
+                        <option value="Section-10B">Section-10B</option>
+                        <option value="Section-10C">Section-10C</option>
+                      </select><br>
+                      <button id="btnAddStud" type="button" class="btn btn-primary" style="display: inline-block; ">Add Student</button>
+                    </div>
+                  <div class="overrule">
+                    <table id="datatable-buttons" class="table table-hover table-striped" width="100%" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th class="export-col">Student Number</th>
+                          <th class="export-col">Full Name</th>
+                          <th class="export-col">Grade</th>
+                          <th class="export-col">Section</th>
+                          <th class="export-col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="table_body">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="float-right">
+                <a href="#">Elite</a> &copy; 2017
+            </span>
+          </div>
+        </footer>
+
+        <!-- partial -->
+      </div>
+    </div>
+
+  </div>
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/jquery-ui-dist/jquery-ui.js"></script>
+  <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/misc.js"></script>
+
+  <!-- iCheck -->
+  <script src="js/mine/jszip.js"></script>
+  <script src="js/mine/pdfmake.js"></script>
+  <script src="js/mine/vfs_fonts.js"></script>
+  <script src="js/mine/datatables.js"></script>
+
+  <!-- FIREBASE-->
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script src="js/mine/parents.js"></script>
+
+  <!--DATATABLES-->
+  <script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+  <script src="vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+  <script src="vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script src="vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+</body>
+
+</html>
