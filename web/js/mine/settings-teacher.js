@@ -56,8 +56,8 @@ $(window).on('load', function() {
             $('#user-fullname').html(currentUser.displayName);
             $('#user-role').html(role);
             //Display the details in input
-            $('#fullname').val(currentUser.displayName);
             var currentName = currentUser.displayName;
+            $('#fullname').val(currentName);
             // validate signup form on keyup and submit
             $("#validate-form").validate({
               rules: {
@@ -90,13 +90,14 @@ $(window).on('load', function() {
                 },
                 email: "Please enter a valid email address"
               },
-              submitHandler: function(form){
+              submitHandler: function(form) {
                 var newFullname = $("#fullname").val();
-                var email = $("#email").val();
+                var newEmail = $("#email").val();
+                var emailCount = $("#email").val().length;
                 var newPassword = $("#password").val();
                 var passwordCount = $("#password").val().length;
                 alert(passwordCount);
-                if(currentName != newFullname){
+                if (currentName != newFullname) {
                   currentUser.updateProfile({
                     displayName: newFullname
                   }).then(function() {
@@ -114,25 +115,41 @@ $(window).on('load', function() {
                     // An error happened.
                     $('#alert-danger-name').removeClass('hide');
                   });
-                }
-                else {
+                } else {
                   console.log("No change in name");
                 }
-                if(passwordCount >= 6){
+                if (passwordCount >= 6) {
                   currentUser.updatePassword(newPassword).then(function() {
                     // Update successful.
-                    $('#alert-success-password').removeClass('hide');
+                    $("#alert-success-password").fadeIn("slow", function() {
+                      $(this).removeClass("hide");
+                    });
                   }).catch(function(error) {
                     // An error happened.
-                    console.log(error);
+                    var errorMsgPass = error.message;
                     $('#alert-danger-password').removeClass('hide');
-                    $('#passwordError').html(error);
+                    $('#passwordError').html(errorMsgPass);
                   });
+                } else {
+                  console.log("No change in password");
+                }
+                if (emailCount != 0) {
+                  currentUser.updateEmail(newEmail).then(function() {
+                    // Update successful.
+                    $('#alert-success-email').removeClass('hide');
+                  }).catch(function(error) {
+                    // An error happened.
+                    var errorMsgEmail = error.message;
+                    $('#alert-danger-email').removeClass('hide').fadeIn;
+                    $('#emailError').html(errorMsgEmail);
+                  });
+                } else {
+                  console.log("No change in email");
                 }
               }
             });
           });
-          $('.alert .close').click(function(){
+          $('.alert .close').click(function() {
             $(this).parent().addClass('hide');
           });
         } else if (role == "Admin") {

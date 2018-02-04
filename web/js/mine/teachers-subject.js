@@ -38,12 +38,11 @@ $(function() {
     // Realtime listener
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
-            console.log(firebaseUser);
-            console.log("You are now logged in. \n UID: " + firebaseUser.uid + "\n Name: " + firebaseUser.displayName);
-
             var currentUser = firebaseUser;
+            console.log(currentUser);
+            console.log("You are now logged in. \n UID: " + currentUser.uid + "\n Name: " + currentUser.displayName);
 
-            const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);  
+            const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);
             refUsers.once("value", function(snapshot) {
             var data = snapshot.val();
             console.log(data);
@@ -51,8 +50,10 @@ $(function() {
             var role = snapshot.child("role").val();
             console.log(role);
             if (role == "Admin") {
-              console.log("Teacher is logged in.");
-
+              console.log("Admin is logged in.");
+              //Display the name of user temp
+              $('#user-fullname').html(currentUser.displayName);
+              $('#user-role').html(role);
               //SELECT TEACHER
                 const refTeacher = firebase.database().ref('Teachers/');
                   refTeacher.on("child_added", function(snapshot) {
@@ -103,7 +104,7 @@ $(function() {
                 submitSubjTeacher.addEventListener('click', e  => {
 
                       var selectTeacher = $("#selectTeacher").val();
-                      
+
                       var arr = selectTeacher.split('|');
                       const TID = $.trim(arr[0]);
                       const fullName = $.trim(arr[1]);
@@ -124,8 +125,8 @@ $(function() {
                             $('#alert-success').removeClass('hide');
                         }).catch(function(error){
                             $('#alert-danger').removeClass('hide');
-                        }); 
-                        refSectionsHandled.push({ 
+                        });
+                        refSectionsHandled.push({
                                                 SectionCode: sectionCode,
                                                 Subject: subjectName,
                                                 subjectCode: subjectCode
@@ -133,13 +134,13 @@ $(function() {
                             $('#alert-success').removeClass('hide');
                         }).catch(function(error){
                             $('#alert-danger').removeClass('hide');
-                        }); 
+                        });
                               //, function(error) {
                       // // The Promise was rejected.
                       // $('#alert-danger').removeClass('hide');
                       // console.error(error);
                       // });
-             });  
+             });
               //END SELECT
               //END SUBMIT
             //DATA START! ==============
@@ -198,7 +199,7 @@ $(function() {
                     });
               });
             });
-            //DATA END! ==============        
+            //DATA END! ==============
             //ACTION START! ==============
             //DELETE
             $("#datatable-buttons").on("mousedown", "td .fa.fa-minus-square", function(e) {
@@ -268,12 +269,12 @@ $(function() {
                     }).catch(function(error){
                     $('#alert-success-remove').addClass('hide');
                     $('#alert-danger-remove').removeClass('hide');
-                }); 
+                });
                 });
               $('#datatable-buttons').DataTable().row($(this).closest("tr")).remove().draw();
             });
-            
-            //ACTION END! ============== 
+
+            //ACTION END! ==============
             }
             else if (role == "Teacher") {
               window.location = 'upload-grades.html';

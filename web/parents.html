@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Accounts | Parents</title>
-  
+
   <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="css/custom.css" />
@@ -19,7 +19,7 @@
     <link href="vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="node_modules/jquery-ui-dist/jquery-ui.css">
-    
+
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/mine.css" />
 </head>
@@ -71,8 +71,8 @@
         <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
             <img src="images/jcfc-logo.png" alt="">
-            <p class="name">Philip Tayao</p>
-            <p class="designation">Admin</p>
+            <p id="user-fullname" class="name"></p>
+            <p id="user-role" class="designation"></p>
             <span class="online"></span>
           </div>
           <ul class="nav">
@@ -110,28 +110,28 @@
               <div class="collapse" id="teachers">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="upload-teachers.html">
-                      Upload Teachers
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                    <li class="nav-item">
+                      <a class="nav-link" href="upload-teachers.html">
+                        Upload Teachers
+                      </a>
+                    </li>
                     <a class="nav-link" href="list-teachers.html">
                       List of Teachers
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="teachers-subject.html">
+                    <a class="nav-link" href="upload-teachers.html">
                       Assign Subjects
                     </a>
                   </li>
                 </ul>
               </div>
             </li>
-          
+
             <li class="nav-item">
               <a class="nav-link" href="add-section.html">
                 <img src="images/icons/4.png" alt="">
-                <span class="menu-title">Section</span>
+                <span class="menu-title">Sections</span>
               </a>
             </li>
             <li class="nav-item">
@@ -140,8 +140,15 @@
                 <span class="menu-title">Parents</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="settings-admin.html">
+                <img src="images/icons/005-forms.png" alt="">
+                <span class="menu-title">Settings</span>
+              </a>
+            </li>
           </ul>
         </nav>
+
 
         <!-- partial -->
         <div class="content-wrapper">
@@ -172,7 +179,7 @@
                       <button type="button" id="createParent" class="btn btn-warning pull-right">Create Account</button>
                     </div>
                     <div class="form-group">
-                      
+
                     </div>
                     <div id="tableCSV">
                     </div>
@@ -190,21 +197,21 @@
                     <div class="form-group">
                       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris volutpat, lacus vitae vestibulum mollis, lorem felis cursus augue, sed viverra lorem urna ac mi.</p>
                         <p><b>Parent name:</b></p>
-                     
+
                           <input type="text" class="form-control p-input" id="parentNames">
-                                
+
                       <div id="tags">
                         <p><b>Child:</b></p>
                           <input type="text" class="form-control p-input" id="childrenNames"><br>
                           <div id="append">
-                            
+
                           </div>
- 
-                
+
+
                       </div>
                       <div id="tagsName">
-                            
-                      </div>       
+
+                      </div>
                       <!--<div class="ui-widget">
   <label for="tags">Tags: </label>
   <input id="tags">
@@ -228,7 +235,7 @@
                       <button type="button" id="uploadCSVaccounts" class="btn btn-success pull-right">Link</button>
                     </div>
                     <div class="form-group">
-                      
+
                     </div>
                     <div id="tableCSV">
                     </div>

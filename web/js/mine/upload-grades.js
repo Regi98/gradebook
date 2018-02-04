@@ -36,12 +36,11 @@ $(function () {
   // Realtime listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if(firebaseUser){
-      console.log(firebaseUser);
-      console.log("You are now logged in as a teacher. \n UID: " + firebaseUser.uid + "\n Name: " + firebaseUser.displayName);
-      
       var currentUser = firebaseUser;
+      console.log(currentUser);
+      console.log("You are now logged in as a teacher. \n UID: " + currentUser.uid + "\n Name: " + currentUser.displayName);
 
-      const refUsers = firebase.database().ref().child('users/'+currentUser.uid);  
+      const refUsers = firebase.database().ref().child('users/'+currentUser.uid);
             refUsers.once("value", function(snapshot) {
             var data = snapshot.val();
             console.log(data);
@@ -74,8 +73,8 @@ $(function () {
                           const refSections = firebase.database().ref('Sections/');
                     refSections.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
                           var section= snapshot.child("secName").val();
-                          
-                      
+
+
                           var count = Object.keys(datasecHandled).length;
 
                           //APPEND TO SELECT UPLOAD (SECTION)
@@ -156,7 +155,7 @@ $(function () {
               titleArray.push(temp);
               };
 
-              $('table').not('#tableCSV').DataTable({ 
+              $('table').not('#tableCSV').DataTable({
                 destroy: true,
                 searching: true,
                 "columns": titleArray,
@@ -170,7 +169,7 @@ $(function () {
 
               // Add new row to table
                 $("table").DataTable().row.add(arr).draw();
-              
+
             });
           });
           //SELECT DISPLAY 2
@@ -195,7 +194,7 @@ $(function () {
               titleArray.push(temp);
               };
 
-              $('table').not('#tableCSV').DataTable({ 
+              $('table').not('#tableCSV').DataTable({
                 destroy: true,
                 searching: true,
                 "columns": titleArray,
@@ -209,7 +208,7 @@ $(function () {
 
               // Add new row to table
                 $("table").DataTable().row.add(arr).draw();
-              
+
             });
           });
           //CSV TO TEXTBOX
@@ -257,7 +256,7 @@ $(function () {
 
             //upload to db firebase
             const btnUploadFirebase = document.getElementById('uploadFirebase');
-            
+
             btnUploadFirebase.addEventListener('click', e  => {
               alert("Click!");
                   var $rowData =  $('#tableCSV').find('> tbody > tr').not(':last');
@@ -300,7 +299,7 @@ $(function () {
                                 $("#uploadFirebase").hide();
                             }).catch(function(error){
                                 $('#alert-danger-upload-grades').removeClass('hide');
-                            }); 
+                            });
                         });
                     });
                   });

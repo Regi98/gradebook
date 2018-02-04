@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Accounts | Teachers</title>
-  
+
   <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="css/custom.css" />
@@ -22,7 +22,7 @@
     <link href="vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -40,35 +40,31 @@
 </div>
   <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
-        <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
-          <div class="user-info">
-            <img src="images/jcfc-logo.png" alt="">
-            <p id="user-fullname" class="name"></p>
-            <p id="user-role" class="designation"></p>
-            <span class="online"></span>
-          </div>
-          <ul class="nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="home.html">
-                <img src="images/icons/1.png" alt="">
-                <span class="menu-title">Dashboard</span>
-              </a>
-            </li>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="upload-grades.html">
-                <img src="images/icons/005-forms.png" alt="">
-                <span class="menu-title">Upload Grades</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="display-grades.html">
-                <img src="images/icons/4.png" alt="">
-                <span class="menu-title">Display Grades</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+    <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="bg-white text-center navbar-brand-wrapper">
+        <a class="navbar-brand brand-logo" href="index.html"><img src="images/logo_star_black.png" /></a>
+        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo_star_mini.jpg" alt=""></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="form-inline mt-2 mt-md-0 d-none d-lg-block">
+          <input class="form-control mr-sm-2 search" type="text" placeholder="Search">
+        </form>
+        <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+          <li class="nav-item">
+            <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="images/jcfc-logo.png" alt=""></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="btnLogout"><i class="fa fa-sign-out"></i></a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
 
     <!-- partial -->
     <div class="container-fluid">
@@ -77,8 +73,8 @@
         <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
             <img src="images/jcfc-logo.png" alt="">
-            <p class="name">Philip Tayao</p>
-            <p class="designation">Admin</p>
+            <p id="user-fullname" class="name"></p>
+            <p id="user-role" class="designation"></p>
             <span class="online"></span>
           </div>
           <ul class="nav">
@@ -116,28 +112,28 @@
               <div class="collapse" id="teachers">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="upload-teachers.html">
-                      Upload Teachers
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                    <li class="nav-item">
+                      <a class="nav-link" href="upload-teachers.html">
+                        Upload Teachers
+                      </a>
+                    </li>
                     <a class="nav-link" href="list-teachers.html">
                       List of Teachers
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="teachers-subject.html">
+                    <a class="nav-link" href="upload-teachers.html">
                       Assign Subjects
                     </a>
                   </li>
                 </ul>
               </div>
             </li>
-          
+
             <li class="nav-item">
               <a class="nav-link" href="add-section.html">
                 <img src="images/icons/4.png" alt="">
-                <span class="menu-title">Section</span>
+                <span class="menu-title">Sections</span>
               </a>
             </li>
             <li class="nav-item">
@@ -146,8 +142,15 @@
                 <span class="menu-title">Parents</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="settings-admin.html">
+                <img src="images/icons/005-forms.png" alt="">
+                <span class="menu-title">Settings</span>
+              </a>
+            </li>
           </ul>
         </nav>
+
 
         <!-- partial -->
         <div class="content-wrapper">
@@ -173,8 +176,8 @@
                     </div>
                     <div class="alert alert-primary">
                       <h6>Directions</h6>
-                        1. Select the CSV file containing student accounts.<br> 
-                        2. Click on 'Load file' to process data from csv.<br> 
+                        1. Select the CSV file containing student accounts.<br>
+                        2. Click on 'Load file' to process data from csv.<br>
                         3. A button will appear. <br>
                         4. Click on 'Create accounts' to finally send database.
                     </div>

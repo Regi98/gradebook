@@ -49,22 +49,22 @@ $(function() {
   // Realtime listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
-      console.log(firebaseUser);
-      console.log("You are now logged in. \n UID: " + firebaseUser.uid + "\n Name: " + firebaseUser.displayName);
-
       var currentUser = firebaseUser;
+      console.log(currentUser);
+      console.log("You are now logged in. \n UID: " + currentUser.uid + "\n Name: " + currentUser.displayName);
 
-      const refUsers = database.ref().child('users/' + firebaseUser.uid);
+      const refUsers = firebase.database().ref().child('users/' + firebaseUser.uid);
       refUsers.once("value", function(snapshot) {
         var data = snapshot.val();
         console.log(data);
         var userID = snapshot.key;
         var role = snapshot.child("role").val();
         console.log(role);
-        // IF THE USER IS AN ADMIN, USE THIS
         if (role == "Admin") {
-
-
+          console.log("Admin is logged in.");
+          //Display the name of user temp
+          $('#user-fullname').html(currentUser.displayName);
+          $('#user-role').html(role);
 
           //INSERT HEADER
           $('#sectionData').on('change', function() {
@@ -106,15 +106,15 @@ $(function() {
 
               });
             });
-//             // Wrap the colspan'ing header cells with a span so they can be positioned
-//             // absolutely - filling the available space, and no more.
-//             $('#datatable-buttons thead th[colspan]').wrapInner('<span/>').append('&nbsp;');
+            //             // Wrap the colspan'ing header cells with a span so they can be positioned
+            //             // absolutely - filling the available space, and no more.
+            //             $('#datatable-buttons thead th[colspan]').wrapInner('<span/>').append('&nbsp;');
 
-//             // Standard initialisation
-//             $('#datatable-buttons').DataTable({
-//               responsive: true,
-//               paging: false
-//             });
+            //             // Standard initialisation
+            //             $('#datatable-buttons').DataTable({
+            //               responsive: true,
+            //               paging: false
+            //             });
           });
           /* rootRef.on("child_added", function(snap) {
                 var data = snap.val();
@@ -303,14 +303,14 @@ $(function() {
             refStudents.orderByChild("SN").equalTo(SN).on("child_added", function(snapshot) {
               //Update in database
               refStudents.child(snapshot.key).remove().then(function() {
-                    $('#alert-danger-remove-student').addClass('hide');
-                    $('#alert-success-remove-student').removeClass('hide');
-                    $('#nameOfStudent').html(fullName);
-                  }).catch(function(error) {
-                    $('#alert-success-remove-student').addClass('hide');
-                    $('#alert-danger-remove-student').removeClass('hide');
-                  });
-                });
+                $('#alert-danger-remove-student').addClass('hide');
+                $('#alert-success-remove-student').removeClass('hide');
+                $('#nameOfStudent').html(fullName);
+              }).catch(function(error) {
+                $('#alert-success-remove-student').addClass('hide');
+                $('#alert-danger-remove-student').removeClass('hide');
+              });
+            });
 
             $('#datatable-buttons').DataTable().row($row).remove().draw();
           });
@@ -330,9 +330,9 @@ $(function() {
             //SECTIONS
             $row.find('td:nth-child(4)').html("").append('<select id="selectSection" class="form-control" width="30%"></select>');
             refSections.on("child_added", function(snapshot) {
-            var secName = snapshot.child("secName").val();
-            $('#selectSection').append('<option value="' + secName + '">'+secName+'</option>');
-            $('#selectSection').find('option[value='+section+']').attr('selected','selected');
+              var secName = snapshot.child("secName").val();
+              $('#selectSection').append('<option value="' + secName + '">' + secName + '</option>');
+              $('#selectSection').find('option[value=' + section + ']').attr('selected', 'selected');
             });
             //GRADE LEVEL
             $row.find('td:nth-child(3)').html("").append('<select id="selectGradeLevel" class="form-control" width="30%"></select>');
@@ -340,15 +340,14 @@ $(function() {
             refSections.on('child_added', snap => {
               var secGrade = snap.child("secGrade").val();
               console.log(snap.val());
-                if (grades.includes(secGrade)) {
-                  console.log("Grade level exists already.");
-                }
-                else{
-                  $('#selectGradeLevel').append('<option value="' + secGrade + '">'+secGrade+'</option>');
-                  grades.push(secGrade);
-                }
+              if (grades.includes(secGrade)) {
+                console.log("Grade level exists already.");
+              } else {
+                $('#selectGradeLevel').append('<option value="' + secGrade + '">' + secGrade + '</option>');
+                grades.push(secGrade);
+              }
             });
-            $('#selectGradeLevel').find('option[value='+gradeLevel+']').attr('selected','selected');
+            $('#selectGradeLevel').find('option[value=' + gradeLevel + ']').attr('selected', 'selected');
           });
 
           $("#datatable-buttons").on('mousedown', "input", function(e) {
@@ -371,7 +370,7 @@ $(function() {
             var entity = ["fullName", "grade", "sectionCode"];
             refSections.orderByChild("secName").equalTo(section).once("child_added", function(snapshot) {
               var sectionCode = snapshot.child("sectionCode").val();
-               //Update in database
+              //Update in database
               const refSectionEdit = database.ref().child('Sections/' + parentKey);
               refSectionEdit.update({
                 [entity[0]]: fullName,

@@ -4,8 +4,8 @@ var selectedFile;
 $(document).ready(function() {
   $("#uploadFirebaseA").hide();
   $("#tableCSV").hide();
-   $("#status").fadeOut(); // will first fade out the loading animation
-    $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
+  $("#status").fadeOut(); // will first fade out the loading animation
+  $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
 });
 
 $(function() {
@@ -46,24 +46,26 @@ $(function() {
   // Realtime listener
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
-      console.log(firebaseUser);
-      console.log("You are now logged in. \n UID: " + firebaseUser.uid + "\n Name: " + firebaseUser.displayName);
+        var currentUser = firebaseUser;
+        console.log(currentUser);
+        console.log("You are now logged in. \n UID: " + currentUser.uid + "\n Name: " + currentUser.displayName);
 
-      var currentUser = firebaseUser;
-
-      const refUsers = database.ref().child('users/' + firebaseUser.uid);
-      refUsers.once("value", function(snapshot) {
+        const refUsers = firebase.database().ref().child('users/'+firebaseUser.uid);
+        refUsers.once("value", function(snapshot) {
         var data = snapshot.val();
         console.log(data);
         var userID = snapshot.key;
         var role = snapshot.child("role").val();
         console.log(role);
-        // IF THE USER IS AN ADMIN, USE THIS
         if (role == "Admin") {
-           $("#status").fadeOut(); // will first fade out the loading animation
-        $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
+          console.log("Admin is logged in.");
+          //Display the name of user temp
+          $('#user-fullname').html(currentUser.displayName);
+          $('#user-role').html(role);
+          $("#status").fadeOut(); // will first fade out the loading animation
+          $("#preloader").delay(500).fadeOut("slow"); // will fade out the white DIV that covers the website.
           $("#createParent").click(function() {
-   
+
             //Parent Creation
             var parentID = guidGenerator();
             var parentName = $('#parentName').val();
@@ -72,26 +74,26 @@ $(function() {
             var password = "123456";
             alert(parentID + parentUser);
             console.log(email + password);
-            
+
             secondaryApp.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
               console.log(email + password);
-                    //Add to users table
-                     //Array of entities
-                        var entity = ["PID","userName", "fullName","password"];
-                        var pushedRef = firebase.database().ref('Parents/' + user.uid).set({
-                            [entity[0]]: parentID,
-                            [entity[1]]: parentUser,
-                            [entity[2]]: parentName,
-                            [entity[3]]: password
-                        });  
-                        $('#alert-success').removeClass('hide');
-                        $('#parentName').val('');
-                        secondaryApp.auth().signOut();
-                        }, function(error) {
-                            // An error happened.
-                            var errorCode = error.code;
-                            var errorMessage = error.message;
-                        });
+              //Add to users table
+              //Array of entities
+              var entity = ["PID", "userName", "fullName", "password"];
+              var pushedRef = firebase.database().ref('Parents/' + user.uid).set({
+                [entity[0]]: parentID,
+                [entity[1]]: parentUser,
+                [entity[2]]: parentName,
+                [entity[3]]: password
+              });
+              $('#alert-success').removeClass('hide');
+              $('#parentName').val('');
+              secondaryApp.auth().signOut();
+            }, function(error) {
+              // An error happened.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+            });
           });
 
           //AUTOCOMPLETE FORM PARENT
@@ -107,22 +109,22 @@ $(function() {
               $("#parentNames").autocomplete({
                 source: data1
               });
-              
+
               console.log(data1);
             });
           });
-          $('#parentNames').on('autocompletechange change', function () {
-             var parentPID = "";
-             var parentName = this.value;
-             var selectedRef = database.ref().child('Parents').orderByChild('fullName').equalTo(this.value).once('value').then(function(snapshot) {
-    snapshot.forEach(function(userSnapshot) {
-        var username = userSnapshot.val();
-        console.log(username.PID);
-        parentPID = username.PID;
-        $('#tagsName').append('<strong>Selected Parent:</strong><p id="parentPID">' + parentPID + '</parentPID> | ' + parentName + '');
-    });
-   });
+          $('#parentNames').on('autocompletechange change', function() {
+            var parentPID = "";
+            var parentName = this.value;
+            var selectedRef = database.ref().child('Parents').orderByChild('fullName').equalTo(this.value).once('value').then(function(snapshot) {
+              snapshot.forEach(function(userSnapshot) {
+                var username = userSnapshot.val();
+                console.log(username.PID);
+                parentPID = username.PID;
+                $('#tagsName').append('<strong>Selected Parent:</strong><p id="parentPID">' + parentPID + '</parentPID> | ' + parentName + '');
               });
+            });
+          });
 
           //AUTOCOMPLETE FORM STUDENT
           $("#childrenNames").keydown(function() {
@@ -139,19 +141,19 @@ $(function() {
               console.log(data2);
             });
           });
-         $('#childrenNames').on('autocompletechange change', function () {
-             var childPID = "";
-             var childName = this.value;
-             var selectedRef = database.ref().child('Students').orderByChild('fullName').equalTo(this.value).once('value').then(function(snapshot) {
-    snapshot.forEach(function(userSnapshot) {
-        var username = userSnapshot.val();
-        console.log(username.SN);
-        childPID = username.SN;
-        $('#tagsName').append('<strong>Selected Child:</strong> <p id="childPID">' + childPID + '</childPID> | ' + childName);
-    });
-   });
-              }).change();
-          
+          $('#childrenNames').on('autocompletechange change', function() {
+            var childPID = "";
+            var childName = this.value;
+            var selectedRef = database.ref().child('Students').orderByChild('fullName').equalTo(this.value).once('value').then(function(snapshot) {
+              snapshot.forEach(function(userSnapshot) {
+                var username = userSnapshot.val();
+                console.log(username.SN);
+                childPID = username.SN;
+                $('#tagsName').append('<strong>Selected Child:</strong> <p id="childPID">' + childPID + '</childPID> | ' + childName);
+              });
+            });
+          }).change();
+
           // ::: TAGS BOX
           $("#tags input").on({
             focusout: function() {
@@ -210,11 +212,12 @@ $(function() {
 
             });
           });
-function guidGenerator() {
-  var S4 = function() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  };
-  return (S4() + S4());
+
+          function guidGenerator() {
+            var S4 = function() {
+              return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            };
+            return (S4() + S4());
           }
         } else if (role == "Teacher") {
           window.location = 'upload-grades.html';
