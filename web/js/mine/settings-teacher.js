@@ -82,11 +82,9 @@ $(window).on('load', function() {
                   minlength: "Your fullname must consist of at least 2 characters"
                 },
                 password: {
-                  required: "Please provide a password",
                   minlength: "Your password must be at least 6 characters long"
                 },
                 confirm_password: {
-                  required: "Please provide a password",
                   minlength: "Your password must be at least 6 characters long",
                   equalTo: "Please enter the same password as above"
                 },
@@ -95,8 +93,9 @@ $(window).on('load', function() {
               submitHandler: function(form){
                 var newFullname = $("#fullname").val();
                 var email = $("#email").val();
-                var password = $("#password").val();
-                console.log(currentName+newFullname);
+                var newPassword = $("#password").val();
+                var passwordCount = $("#password").val().length;
+                alert(passwordCount);
                 if(currentName != newFullname){
                   currentUser.updateProfile({
                     displayName: newFullname
@@ -114,6 +113,20 @@ $(window).on('load', function() {
                   }).catch(function(error) {
                     // An error happened.
                     $('#alert-danger-name').removeClass('hide');
+                  });
+                }
+                else {
+                  console.log("No change in name");
+                }
+                if(passwordCount >= 6){
+                  currentUser.updatePassword(newPassword).then(function() {
+                    // Update successful.
+                    $('#alert-success-password').removeClass('hide');
+                  }).catch(function(error) {
+                    // An error happened.
+                    console.log(error);
+                    $('#alert-danger-password').removeClass('hide');
+                    $('#passwordError').html(error);
                   });
                 }
               }

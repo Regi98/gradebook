@@ -113,13 +113,22 @@
                 <div class="card-body">
                   <h5 class="card-title mb-5">Edit your account</h5>
                   <hr>
-                  <div id="alert-success-name" class="alert alert-success hide alert-dismissable">
+                  <div id="alert-success-name" class="alert alert-success hide alert-dismissable fade in">
                     <a href="#" class="close"  aria-label="close">×</a>
                     <strong>Success!</strong> Name has been saved.
                   </div>
-                  <div id="alert-danger-name" class="alert alert-danger hide alert-dismissable fade">
+                  <div id="alert-danger-name" class="alert alert-danger hide alert-dismissable fade in">
                     <a href="#" class="close"  aria-label="close">×</a>
                     <strong>Error!</strong> Failed to save name.
+                  </div>
+                  <div id="alert-success-password" class="alert alert-success hide alert-dismissable fade in">
+                    <a href="#" class="close"  aria-label="close">×</a>
+                    <strong>Success!</strong> Password has been changed.
+                  </div>
+                  <div id="alert-danger-password" class="alert alert-danger alert-dismissable hide fade in">
+                    <a href="#" class="close"  aria-label="close">×</a>
+                    <strong>Error!</strong> Failed to change password.<p id="passwordError">
+                    </p>
                   </div>
                   <form class="cmxform form-horizontal" id="validate-form" method="get" action="">
                     <div class="col-md-12">
@@ -128,7 +137,7 @@
                         <div class="col-md-5">
                           <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input id="fullname" type="text" name="fullname" placeholder="FUll Name" class="form-control"/>
+                            <input id="fullname" type="text" name="fullname" placeholder="Full Name" class="form-control"/>
                           </div>
                         </div>
                       </div><br><br>
