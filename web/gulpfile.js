@@ -1,142 +1,86 @@
-'use strict'
-
+'use strict';
+/*******************************************************
+          NODE MODULES
+*******************************************************/
 var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var filter = require('gulp-filter');
-var mainBowerFiles = require('main-bower-files');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var del = require('del');
+var browserSync = require('browser-sync');
+var nodemon = require('gulp-nodemon');
 var runSequence = require('run-sequence');
 var replace = require('gulp-replace');
 var injectPartials = require('gulp-inject-partials');
-var sourcemaps = require('gulp-sourcemaps');
+var BROWSER_SYNC_RELOAD_DELAY = 500;
+/*******************************************************
+          GULP TASKS
+*******************************************************/
+gulp.task('nodemon',['inject'], function (cb) {
+  var called = false;
+  return nodemon({
 
-gulp.paths = {
-    dist: 'dist',
-};
+    // nodemon our expressjs server
+    script: 'server.js',
 
-var paths = gulp.paths;
-
-// Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function() {
-
-    browserSync.init({
-        server: "./",
-        ghostMode: false,
-        notify: false
+    // watch core server file(s) that require server restart on change
+    watch: ['server.js']
+  })
+    .on('start', function onStart() {
+      // ensure start only got called once
+      if (!called) { cb(); }
+      called = true;
+    })
+    .on('restart', function onRestart() {
+      // reload connected browsers after a slight delay
+      setTimeout(function reload() {
+        browserSync.reload({
+          stream: false
+        });
+      }, BROWSER_SYNC_RELOAD_DELAY);
     });
-
-    gulp.watch('scss/**/*.scss', ['sass']);
-    gulp.watch('**/*.html').on('change', browserSync.reload);
-    gulp.watch('js/**/*.js').on('change', browserSync.reload);
-
 });
+gulp.task('browser-sync', ['nodemon'], function () {
 
-// Static Server without watching scss files
-gulp.task('serve:lite', function() {
+  // for more browser-sync config options: http://www.browsersync.io/docs/options/
+  browserSync({
 
-    browserSync.init({
-        server: "./",
-        ghostMode: false,
-        notify: false
-    });
+    // informs browser-sync to proxy our expressjs app which would run at the following location
+    proxy: 'http://localhost:3000',
 
-    gulp.watch('**/*.css').on('change', browserSync.reload);
-    gulp.watch('**/*.html').on('change', browserSync.reload);
-    gulp.watch('js/**/*.js').on('change', browserSync.reload);
+    // informs browser-sync to use the following port for the proxied app
+    // notice that the default port is 3000, which would clash with our expressjs
+    port: 4000,
 
+    // open the proxied app in chrome
+    browser: ['chrome']
+  });
 });
-
-gulp.task('sass', function () {
-    return gulp.src('./scss/style.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass())
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./css'))
-        .pipe(browserSync.stream());
+gulp.task('js',  function () {
+  return gulp.src('public/**/*.js')
+    // do stuff to JavaScript files
+    //.pipe(uglify())
+    //.pipe(gulp.dest('...'));
 });
-
-gulp.task('sass:watch', function () {
-    gulp.watch('./scss/**/*.scss');
+gulp.task('css', function () {
+  return gulp.src('public/**/*.css')
+    .pipe(browserSync.reload({ stream: true }));
+})
+gulp.task('bs-reload', function () {
+  browserSync.reload();
 });
-
-gulp.task('clean:dist', function () {
-    return del(paths.dist);
-});
-
-gulp.task('copy:bower', function () {
-    return gulp.src(mainBowerFiles(['**/*.js', '!**/*.min.js']))
-        .pipe(gulp.dest(paths.dist+'/js/libs'))
-        .pipe(uglify())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(paths.dist+'/js/libs'));
-});
-
-gulp.task('copy:css', function() {
-   gulp.src('./css/**/*')
-   .pipe(gulp.dest(paths.dist+'/css'));
-});
-
-gulp.task('copy:img', function() {
-   return gulp.src('./img/**/*')
-   .pipe(gulp.dest(paths.dist+'/img'));
-});
-
-gulp.task('copy:fonts', function() {
-   return gulp.src('./fonts/**/*')
-   .pipe(gulp.dest(paths.dist+'/fonts'));
-});
-
-gulp.task('copy:js', function() {
-   return gulp.src('./js/**/*')
-   .pipe(gulp.dest(paths.dist+'/js'));
-});
-
-gulp.task('copy:html', function() {
-   return gulp.src('./**/*.html')
-   .pipe(gulp.dest(paths.dist+'/'));
-});
-
-gulp.task('replace:bower', function(){
-    return gulp.src([
-        './dist/*.html',
-        './dist/**/*.js',
-    ], {base: './'})
-    .pipe(replace(/bower_components+.+(\/[a-z0-9][^/]*\.[a-z0-9]+(\'|\"))/ig, 'js/libs$1'))
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('build:dist', function(callback) {
-    runSequence('clean:dist', 'copy:bower', 'copy:css', 'copy:img', 'copy:fonts', 'copy:js', 'copy:html', 'replace:bower', callback);
-});
-
-/*sequence for injecting partials and replacing paths*/
 gulp.task('inject', function() {
   runSequence('injectPartial', 'replacePath');
 });
-
-/*inject partials like sidebar and navbar*/
 gulp.task('injectPartial', function () {
-  return gulp.src("./**/*.html", { base: "./" })
+  return gulp.src("./public/*.html")
     .pipe(injectPartials())
-    .pipe(gulp.dest("."));
+    .pipe(gulp.dest("./public"));
 });
-
-/*replace image path and linking after injection*/
 gulp.task('replacePath', function(){
-  gulp.src('pages/*/*.html', { base: "./" })
-    .pipe(replace('src="images/', 'src="../../images/'))
-    .pipe(replace('href="pages/', 'href="../../pages/'))
-    .pipe(replace('href="index.html"', 'href="../../index.html"'))
-    .pipe(gulp.dest('.'));
-  gulp.src('pages/*.html', { base: "./" })
+  gulp.src('public/*.html', { base: "./" })
     .pipe(replace('src="images/', 'src="../images/'))
-    .pipe(replace('"pages/', '"../pages/'))
-    .pipe(replace('href="index.html"', 'href="../index.html"'))
+    .pipe(replace('href="index.html"', 'href="/"'))
     .pipe(gulp.dest('.'));
 });
-
-gulp.task('default', ['serve']);
+gulp.task('default', ['browser-sync'], function () {
+  gulp.watch('public/**/*.js',   ['js', browserSync.reload]);
+  gulp.watch('public/**/*.css',  ['css']);
+  gulp.watch('public/**/*.html', ['bs-reload']);
+});

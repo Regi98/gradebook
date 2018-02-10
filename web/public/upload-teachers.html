@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Accounts | Teachers</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/lib/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <link rel="stylesheet" href="css/mine.css" />
+  <link rel="shortcut icon" href="images/favicon.png" />
+  <!-- Datatables -->
+
+    <link href="vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+<div id="preloader">
+  <div id="status">
+     <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</div>
+  <div class=" container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+  <div class="bg-white text-center navbar-brand-wrapper">
+    <a class="navbar-brand brand-logo" href="/"><img src="../images/logo_star_black.png" /></a>
+    <a class="navbar-brand brand-logo-mini" href="/"><img src="../images/logo_star_mini.jpg" alt=""></a>
+  </div>
+  <div class="navbar-menu-wrapper d-flex align-items-center">
+    <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+      <li class="nav-item">
+        <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="../images/jcfc-logo.png" alt=""></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="btnLogout"><i class="fa fa-sign-out"></i></a>
+      </li>
+    </ul>
+    <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+    <!-- partial -->
+    <div class="container-fluid">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+          <div class="user-info">
+            <img src="../images/jcfc-logo.png" alt="">
+            <p id="user-fullname" class="name"></p>
+            <p id="user-role" class="designation"></p>
+            <span class="online"></span>
+          </div>
+          <ul class="nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/home-admin">
+                <img src="../images/dashy.png" alt="">
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="students">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/upload-students">
+                      Upload Students
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/list-students">
+                      List of Students
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#teachers" aria-expanded="false" aria-controls="teachers">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Teachers<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="teachers">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/upload-teachers">
+                        Upload Teachers
+                      </a>
+                    </li>
+                    <a class="nav-link" href="/list-teachers">
+                      List of Teachers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/teachers-subject">
+                      Assign Subjects
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/add-section">
+                <img src="../images/sections.png" alt="">
+                <span class="menu-title">Sections</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/settings-admin">
+                <img src="../images/settings.png" alt="">
+                <span class="menu-title">Settings</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- partial -->
+        <div class="content-wrapper">
+        <h3 class="page-heading mb-4">Upload Teachers</h3>
+          <div class="row mb-2">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Insert CSV File</h5><hr>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <p>This input is strictly filtered to receive .csv file ONLY. Make sure all information are final as account credentials will be created with the data from the csv file.</p>
+                      <p><b>Choose CSV file:</b></p>
+                      <input type="file" id="fileUploadAccounts">
+                    </div>
+                    <div class="form-group">
+                    <div class="alert alert-success">
+                      <h6>Directions</h6>
+                        1. Select the CSV file containing student accounts.<br>
+                        2. Click on 'Load file' to process data from csv.<br>
+                        3. A button will appear. <br>
+                        4. Click on 'Create accounts' to finally send database.
+                    </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" href="#0" id="uploadCSVaccounts" class="btn btn-warning pull-right">Load file</button>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" href="#0" id="uploadFirebaseA" class="btn btn-success pull-right">Create accounts</button>
+                    </div>
+                    <div id="tableCSV">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Teacher Accounts</h5><hr>
+                    <p>Data may take some time to load.</p>
+                  <div class="overrule">
+                    <table id="datatable-buttons" class="table table-striped table-bordered" width="100%">
+                      <thead>
+                        <button id="btnAddTeacher" type="button" class="btn btn-sm btn-success" style="display: inline-block; ">Add Teacher</button>
+                        <tr>
+                          <th class="export-col">TID</th>
+                          <th class="export-col">Full Name</th>
+                          <th class="export-col">Email</th>
+                          <th>Password</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody id="table_body">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div id="alert-boxes"></div>
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="float-right">
+                <a href="#">JCFC | Gradebook</a> &copy; 2017
+            </span>
+          </div>
+        </footer>
+
+        <!-- partial -->
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/lib/jquery/dist/jquery.min.js"></script>
+  <script src="/lib/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/lib/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="/lib/jquery-confirm/dist/jquery-confirm.min.js"></script>
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/misc.js"></script>
+
+  <!-- iCheck -->
+  <script src="js/mine/jszip.js"></script>
+  <script src="js/mine/pdfmake.js"></script>
+  <script src="js/mine/vfs_fonts.js"></script>
+  <script src="js/mine/datatables.js"></script>
+
+  <!-- FIREBASE-->
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script src="js/mine/upload-teachers.js"></script>
+
+  <!--DATATABLES-->
+  <script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+  <script src="vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+  <script src="vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script src="vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+</body>
+
+</html>

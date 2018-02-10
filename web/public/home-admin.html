@@ -1,5 +1,5 @@
-<!DOCTYPE>
- lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <!-- Required meta tags -->
@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="/lib/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="/lib/flag-icon-css/css/flag-icon.min.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/mine.css" />
+    <link rel="stylesheet" href="css/mine.css" />
+
   <link rel="shortcut icon" href="images/favicon.png" />
 </head>
 
@@ -27,7 +28,7 @@
   </div>
 </div>
   <div class=" container-scroller">
-    <!-- partial:partials/_navbar -->
+    <!-- partial:partials/_navbar.html -->
     <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="bg-white text-center navbar-brand-wrapper">
     <a class="navbar-brand brand-logo" href="/"><img src="../images/logo_star_black.png" /></a>
@@ -54,37 +55,76 @@
     <!-- partial -->
     <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-right">
-        <!-- partial:partials/_sidebar -->
+        <!-- partial:partials/_sidebar.html -->
         <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
-            <img src="images/jcfc-logo.png" alt="">
+            <img src="../images/jcfc-logo.png" alt="">
             <p id="user-fullname" class="name"></p>
             <p id="user-role" class="designation"></p>
             <span class="online"></span>
           </div>
           <ul class="nav">
             <li class="nav-item active">
-              <a class="nav-link" href="/home">
-                <img src="images/dashy.png" alt="">
+              <a class="nav-link" href="/home-admin">
+                <img src="../images/dashy.png" alt="">
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="students">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/upload-students">
+                      Upload Students
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/list-students">
+                      List of Students
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/upload-grades">
-                <img src="images/icons/016-diamond-1.png" alt="">
-                <span class="menu-title">Upload Grades</span>
+              <a class="nav-link" data-toggle="collapse" href="#teachers" aria-expanded="false" aria-controls="teachers">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Teachers<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="teachers">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/upload-teachers">
+                        Upload Teachers
+                      </a>
+                    </li>
+                    <a class="nav-link" href="/list-teachers">
+                      List of Teachers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/teachers-subject">
+                      Assign Subjects
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/add-section">
+                <img src="../images/sections.png" alt="">
+                <span class="menu-title">Sections</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/display-grades">
-                <img src="images/icons/016-diamond-1.png" alt="">
-                <span class="menu-title">Display Grades</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/settings-teacher">
-                <img src="images/settings.png" alt="">
+              <a class="nav-link" href="/settings-admin">
+                <img src="../images/settings.png" alt="">
                 <span class="menu-title">Settings</span>
               </a>
             </li>
@@ -95,7 +135,7 @@
         <div class="content-wrapper">
           <h3 class="page-heading mb-4">Dashboard</h3>
           <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-4">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-4">
               <div class="card card-statistics">
                 <div class="card-body">
                   <div class="clearfix">
@@ -105,7 +145,7 @@
                       </h4>
                     </div>
                     <div class="float-right">
-                      <p class="card-text text-dark">Students Handled</p>
+                      <p class="card-text text-dark">Students</p>
                       <h4 class="bold-text" id="numStudents"></h4>
                     </div>
                   </div>
@@ -115,7 +155,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-4">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-4">
               <div class="card card-statistics">
                 <div class="card-body">
                   <div class="clearfix">
@@ -125,12 +165,52 @@
                       </h4>
                     </div>
                     <div class="float-right">
-                      <p class="card-text text-dark">Subjects Handled</p>
-                      <h4 class="bold-text" id="numSections"></h4>
+                      <p class="card-text text-dark">Teachers</p>
+                      <h4 class="bold-text" id="numTeachers"></h4>
                     </div>
                   </div>
                   <p class="text-muted">
                     <i class="fa fa-repeat mr-1" aria-hidden="true"></i>Synced data
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-4">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <h4 class="text-success">
+                        <i class="fa fa-toggle-on highlight-icon" aria-hidden="true"></i>
+                      </h4>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-dark">Users Online</p>
+                      <h4 class="bold-text" id="usersOnline"></h4>
+                    </div>
+                  </div>
+                  <p class="text-muted">
+                    <i class="fa fa-repeat mr-1" aria-hidden="true"></i>Realtime Monitoring
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 mb-4">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <h4 class="text-success">
+                        <i class="fa fa-list-alt highlight-icon" aria-hidden="true"></i>
+                      </h4>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-dark">Sections</p>
+                      <h4 class="bold-text" id="numSections"></h4>
+                    </div>
+                  </div>
+                  <p class="text-muted">
+                    <i class="fa fa-repeat mr-1" aria-hidden="true"></i> Synced
                   </p>
                 </div>
               </div>
@@ -140,20 +220,30 @@
             <div class="col-md-4 mb-4">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Teacher Templates</h5>
+                  <h5 class="card-title">Downloadables - Admin</h5>
                   <div class="row">
                     <div class="col-12">
                       <br>
                       <div class="mb-4">
                         <p class="card-text text-muted mb-2">
                           <a class="text-dark" href="templates/3.jpg" download>
+                            STUDENT ACCOUNTS.csv <i class="fa fa-2x fa-download pull-right"></i>
+                          </a></p>
+                          <div class="progress progress-slim">
+                            <div class="progress-bar bg-dark" role="progressbar" style="width: 100%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </div>
+                      <div class="mb-4">
+                        <p class="card-text text-muted mb-2">
+                          <a class="text-dark" href="templates/3.jpg" download>
+                            TEACHER ACCOUNTS.csv <i class="fa fa-2x fa-download pull-right"></i>
                           </a></p>
                           <div class="progress progress-slim">
                             <div class="progress-bar bg-dark" role="progressbar" style="width: 100%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                       </div>
                       <div class="mb-4 text-center">
-                        <img src="images/logo.png" width="190px">
+                        <img src="../images/logo.png" width="117px">
                       </div>
                     </div>
                   </div>
@@ -262,7 +352,7 @@
         <footer class="footer">
           <div class="container-fluid clearfix">
             <span class="float-right">
-                <a href="#">Elite</a> &copy; 2017
+                <a href="#">JCFC | Gradebook</a> &copy; 2017
             </span>
           </div>
         </footer>
@@ -287,7 +377,7 @@
   <!-- FIREBASE-->
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script src="js/mine/gathering.js"></script>
-  <script src="js/mine/home.js"></script>
+  <script src="js/mine/home-admin.js"></script>
 
 </body>
 

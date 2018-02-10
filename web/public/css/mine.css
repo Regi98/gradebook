@@ -1,0 +1,197 @@
+th {
+        position: relative;
+        min-height: 41px;
+    }
+th span {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+#tagsName{
+  margin-top: 150px;
+  border:1px solid #ccc;
+  padding:10px;
+}
+#tags{
+  float:left;
+}
+#tags > span{
+  cursor:pointer;
+  display:block;
+  float:left;
+  color:#fff;
+  background:#757575;
+  padding:5px;
+  padding-right:25px;
+  margin:4px;
+}
+#tags > span:hover{
+  opacity:0.7;
+}
+#tags > span:after{
+ position:absolute;
+ content:"×";
+ border:1px solid;
+ padding:2px 5px;
+ margin-left:3px;
+ font-size:11px;
+}
+#tags > input{
+  background:#eee;
+  border:0;
+  margin:4px;
+  padding:7px;
+  width:auto;
+}
+
+/* PRELOADER */
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+     background: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    z-index:99999; /* makes sure it stays on top */
+}
+
+#status {
+    width:50px;
+    height:30px;
+    position:fixed;
+    left:50%; /* centers the loading animation horizontally one the screen */
+    top:50%; /* centers the loading animation vertically one the screen */
+   margin:-25px 0 0 -15px; /* is width and height divided by two */
+}
+.spinner {
+  margin: 0px auto;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #58d8a3;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+/*VALIDATION*/
+
+body {
+  direction: ltr;
+}
+
+.error {
+  color: darkred;
+  position: relative;
+}
+.error .input-group-addon {
+  background: rgba(139, 0, 0, 0.32);
+  border: 1px solid darkred;
+  border-left: none;
+}
+.error input {
+  transition: all 400ms;
+  border-color: darkred !important;
+}
+.error input::-webkit-input-placeholder {
+  opacity: 0.6;
+  color: darkred;
+}
+.input-group input{
+  width: 1px;
+}
+.valid {
+  color: darkgreen;
+}
+.valid .input-group-addon {
+  background: rgba(0, 139, 0, 0.32);
+  border: 1px solid darkgreen;
+  border-left: none;
+}
+.valid input {
+  transition: all 400ms;
+  border-color: darkgreen !important;
+}
+.valid input::-webkit-input-placeholder {
+  opacity: 0.6;
+  color: darkgreen;
+}
+
+.form-title {
+  padding: 5px 10px;
+}
+
+.log {
+  display: none;
+  font-weight: bold;
+  font-size: 13px;
+  background: rgba(255, 50, 2, 0.7);
+  padding: 10px 30px;
+}
+.log p {
+  display: list-item;
+  color: black;
+}
+#validate-form label.error {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
+}
+.btn-dt {
+  color: #d2d2d2;
+  text-decoration: none;
+}
+.btn-dt:hover {
+  color: #232323;
+    text-decoration: none;
+}

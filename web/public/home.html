@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Gradebook | Dashboard</title>
+  <title>Gradebook Dashboard</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/lib/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="/lib/flag-icon-css/css/flag-icon.min.css" />
@@ -27,7 +27,7 @@
   </div>
 </div>
   <div class=" container-scroller">
-    <!-- partial:partials/_navbar -->
+    <!-- partial:partials/_navbar.html -->
     <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="bg-white text-center navbar-brand-wrapper">
     <a class="navbar-brand brand-logo" href="/"><img src="../images/logo_star_black.png" /></a>
@@ -54,37 +54,76 @@
     <!-- partial -->
     <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-right">
-        <!-- partial:partials/_sidebar -->
+        <!-- partial:partials/_sidebar.html -->
         <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
-            <img src="images/jcfc-logo.png" alt="">
+            <img src="../images/jcfc-logo.png" alt="">
             <p id="user-fullname" class="name"></p>
             <p id="user-role" class="designation"></p>
             <span class="online"></span>
           </div>
           <ul class="nav">
             <li class="nav-item active">
-              <a class="nav-link" href="/home">
-                <img src="images/dashy.png" alt="">
+              <a class="nav-link" href="/home-admin">
+                <img src="../images/dashy.png" alt="">
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="students">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/upload-students">
+                      Upload Students
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/list-students">
+                      List of Students
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/upload-grades">
-                <img src="images/icons/016-diamond-1.png" alt="">
-                <span class="menu-title">Upload Grades</span>
+              <a class="nav-link" data-toggle="collapse" href="#teachers" aria-expanded="false" aria-controls="teachers">
+                <img src="../images/icons/016-diamond-1.png" alt="">
+                <span class="menu-title">Teachers<i class="fa fa-sort-down"></i></span>
+              </a>
+              <div class="collapse" id="teachers">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/upload-teachers">
+                        Upload Teachers
+                      </a>
+                    </li>
+                    <a class="nav-link" href="/list-teachers">
+                      List of Teachers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/teachers-subject">
+                      Assign Subjects
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/add-section">
+                <img src="../images/sections.png" alt="">
+                <span class="menu-title">Sections</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/display-grades">
-                <img src="images/icons/016-diamond-1.png" alt="">
-                <span class="menu-title">Display Grades</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/settings-teacher">
-                <img src="images/settings.png" alt="">
+              <a class="nav-link" href="/settings-admin">
+                <img src="../images/settings.png" alt="">
                 <span class="menu-title">Settings</span>
               </a>
             </li>
@@ -153,7 +192,7 @@
                           </div>
                       </div>
                       <div class="mb-4 text-center">
-                        <img src="images/logo.png" width="190px">
+                        <img src="../images/logo.png" width="190px">
                       </div>
                     </div>
                   </div>
@@ -262,7 +301,7 @@
         <footer class="footer">
           <div class="container-fluid clearfix">
             <span class="float-right">
-                <a href="#">Elite</a> &copy; 2017
+                <a href="#">JCFC | Gradebook</a> &copy; 2017
             </span>
           </div>
         </footer>
