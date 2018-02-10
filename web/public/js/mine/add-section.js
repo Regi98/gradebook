@@ -33,8 +33,8 @@ $(function() {
 
   //create references
   const database = firebase.database();
-  const refSections = database.ref().child('Sections/');
-  const refSubjects = database.ref().child('Subjects/');
+  const refSections = database.ref('Sections/');
+  const refSubjects = database.ref('Subjects/');
   const section = document.getElementById("section");
   const txtEmail = document.getElementById('txtEmail');
   const btnLogin = document.getElementById('btnLogin');
@@ -334,6 +334,22 @@ $(function() {
                 $row.remove();
               }).catch(function(error) {
                 $('#alert-danger-new-subject').removeClass('hide');
+              });
+              refSections.orderByChild("sectionCode").equalTo(sectionCode).once("child_added", function(snapshot) {
+                var secGrade = snapshot.child("secGrade");
+                alert("1"+ secGrade);
+                refSections.orderByChild("secGrade").equalTo(secGrade).once("child_added", function(snapshot) {
+                  var sectionCode = snapshot.child("sectionCode");
+                  var subjectCode = guidGenerator();
+                  alert("2"+ sectionCode+" "+ subjectCode);
+                  pushSubjectNew = {
+                    sectionCode: sectionCode,
+                    subjectCode: newSubjectCode,
+                    subjectName: newSubjectName,
+                    subjectTeacherID: false
+                  };
+                  refSubjects.push(pushSubjectNew);
+                });
               });
             } else {
               //NEW SUBJECT NAME
@@ -808,7 +824,7 @@ $(function() {
             var S4 = function() {
               return (((1 + Math.random()) * 0x1000) | 0).toString(16).substring(1);
             };
-            return (S4()+S4());
+            return (S4() + S4());
           }
 
         } else if (role == "Teacher") {
