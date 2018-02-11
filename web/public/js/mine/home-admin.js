@@ -59,22 +59,6 @@ $(function() {
             document.getElementById("numSections").innerHTML = snap.numChildren();
           });
 
-          // default/global gathering
-          var gathering = new Gathering(firebase.database());
-
-          // Or join with a beautiful name
-          gathering.join(firebase.auth().currentUser.uid);
-
-          // Attach a callback function to track updates
-          // That function will be called (with the user count and array of users) every time user list updated
-          gathering.onUpdated(function(count, users) {
-              document.getElementById("usersOnline").innerHTML = count;
-              console.log('We have '+ count +' members online right now.');
-              console.log('Here is the updated users list -');
-              for(var i in users) {
-                  console.log(users[i] + '(id: '+ i + ')');
-              }
-          });
           //RANDOM CODE
           function gidGenerator() {
             var S4 = function() {

@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JCFC Gradebook | Login</title>
+    <title>JCFC Gradebook | Reset Password</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/lib/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
     <link href="css/style.css" rel="stylesheet">
@@ -40,22 +40,16 @@
             <div class="card-body px-5 py-5">
               <h3 class="card-title text-left mb-3 h2-login">
                 <img src="../images/logo.png" width="50px">
-                &nbsp;LOGIN</h3>
+                &nbsp;RESET PASS</h3>
               <form>
                 <div class="form-group">
-                  <input type="text" class="form-control p_input" id="txtEmail" name="username" placeholder="Username" required="required" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control p_input" id="txtPassword" placeholder="Password">
-                </div>
-                <div class="form-group d-flex pull-right justify-content-between">
-                  <a href="forgotpass.html" class="forgot-pass">Forgot password</a>
+                  <input type="text" class="form-control p_input" id="txtEmail" name="email" required="required" placeholder="Email address">
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-success btn-block" id="btnLogin">LOG IN</button>
+                  <button type="submit" class="btn btn-success btn-block" id="btnLogin">Reset my password</button>
                 </div>
                 <p class="Or-login-with my-3">Or</p>
-                <a class="btn btn-warning btn-block" href="/index-email">Sign in with Email</a>
+                <a class="btn btn-dark btn-block" href="index.html">Go back to login</a>
               </form>
             </div>
           </div>
@@ -72,7 +66,7 @@
   <script src="js/misc.js"></script>
   <!-- FIREBASE-->
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-  <script src="js/mine/login.js"></script>
+  <script src="js/mine/forgotpass.js"></script>
 </body>
 
 </html>

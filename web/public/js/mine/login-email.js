@@ -35,8 +35,7 @@ if (e.which == 13) {
   $('#btnLogin').click();
   event.preventDefault();
   //Get Email and Pass
-  const uname = txtEmail.value;
-  const email = uname+"@jcfc-gradebook.com";
+  const email = txtEmail.value;
   const pass = txtPass.value;
   const auth = firebase.auth();
 
@@ -55,8 +54,7 @@ btnLogin.addEventListener('click', e  => {
 
   event.preventDefault();
   //Get Email and Pass
-  const uname = txtEmail.value;
-  const email = uname+"@jcfc-gradebook.com";
+  const email = txtEmail.value;
   const pass = txtPass.value;
   const auth = firebase.auth();
 
