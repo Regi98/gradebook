@@ -258,28 +258,67 @@ $(function() {
             if (count == 0) {
               alert(secGrade);
               //Dalete in database
-                refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
-                  var sectionCode = snapshot.child("sectionCode").val();
-                  alert("sectionCode "+ sectionCode);
-                    refSubjects.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
-                      var subName = snapshot.child("subjectName").val();
-                      if (subjectName == subName) {
-                        var parentKey = snapshot.key;
-                        alert(parentKey);
-                        refSubjects.child(parentKey).remove();
-                        $(this).closest("tr").remove();
-                      }
-                      else{
-                        console.log("Different subject");
-                      }
+              refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
+                var sectionCode = snapshot.child("sectionCode").val();
+                alert("sectionCode " + sectionCode);
+                refSubjects.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
+                  var subName = snapshot.child("subjectName").val();
+                  if (subjectName == subName) {
+                    var parentKey = snapshot.key;
+                    alert(parentKey);
+                    refSubjects.child(parentKey).remove().then(function() {
                       $('#alert-danger-remove-subject').addClass('hide');
                       $('#alert-success-remove-subject').removeClass('hide');
                     }).catch(function(error) {
                       $('#alert-success-remove-subject').addClass('hide');
                       $('#alert-danger-remove-subject').removeClass('hide');
                     });
+                    $(this).closest("tr").remove();
+                  } else {
+                    console.log("Different subject");
+                  }
                 });
-            } else {}
+              });
+            } else {
+              alert("else");
+              //Dalete in database
+              refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
+                var sectionCode = snapshot.child("sectionCode").val();
+                refSubjects.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
+                  var subName = snapshot.child("subjectName").val();
+                  var subjectTeacherID = snapshot.child("subjectTeacherID").val();
+                  if (subjectName == subName) {
+                    var parentKey = snapshot.key;
+                    refSubjects.child(parentKey).remove().then(function() {
+                      $('#alert-danger-remove-subject').addClass('hide');
+                      $('#alert-success-remove-subject').removeClass('hide');
+                    }).catch(function(error) {
+                      $('#alert-success-remove-subject').addClass('hide');
+                      $('#alert-danger-remove-subject').removeClass('hide');
+                      });
+                      //REMOVE IN SECTIONSHANDLED
+                      alert("sdsdd "+subName);
+                      const refSectionsHandledDel = database.ref("sectionsHandled").child(subjectTeacherID);
+                      refSectionsHandledDel.orderByChild("Subject").equalTo(subName).once("child_added", function(snapshot) {
+                        var subName = snapshot.child("Subject").val();
+                        alert("shoot "+subName);
+                        //Update in database
+                        var parentKey = snapshot.key;
+                        refSectionsHandledDel.child(parentKey).remove().then(function() {
+                          $('#alert-danger-remove-teacher').addClass('hide');
+                          $('#alert-success-remove-teacher').removeClass('hide');
+                        }).catch(function(error) {
+                          $('#alert-success-remove-teacher').addClass('hide');
+                          $('#alert-danger-remove-teacher').removeClass('hide');
+                        });
+                      });
+                    $(this).closest("tr").remove();
+                  } else {
+                    console.log("Different subject");
+                  }
+                });
+              });
+            }
             $(this).closest("tr").remove();
           });
           //close popup
@@ -330,7 +369,7 @@ $(function() {
             const newFullName = $.trim(arr[1]);
             if (selectTeacher == 'false') {
 
-              //ADD TO OTHER SECTION SAME GRADE
+              //ADD SUBJECT WITH TEACHER
               refSections.orderByChild("secGrade").equalTo(sectionGrade).on("child_added", function(snapshot) {
                 var sectionCodeThis = snapshot.child("sectionCode").val();
                 var subjectCode = guidGenerator();
@@ -350,60 +389,38 @@ $(function() {
               });
 
             } else {
-              //ADD TO OTHER SECTION SAME GRADE
-
+              //ADD SUBJECT WITH TEACHER
               refSections.orderByChild("secGrade").equalTo(sectionGrade).on("child_added", function(snapshot) {
                 var sectionCodeThis = snapshot.child("sectionCode").val();
                 var subjectCode = guidGenerator();
-                if (sectionCodeThis != sectionCode) {
-                  var pushSubjectNew = {};
-                  pushSubjectNew = {
-                    sectionCode: sectionCodeThis,
-                    subjectCode: subjectCode,
-                    subjectName: newSubjectName,
-                    subjectTeacherID: newTID
-                  };
-                  refSubjects.push(pushSubjectNew);
-                  const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
-                  var updateTeacherSubj = {};
-                  updateTeacherSubj = {
-                    SectionCode: sectionCodeThis,
-                    Subject: newSubjectName,
-                    subjectCode: subjectCode,
-                    subjectTeacherID: newTID
-                  };
-                  refSectionsHandled.push(updateTeacherSubj)
-                } else {
-                  console.log("Already have.");
+                var pushSubjectNew = {};
+                pushSubjectNew = {
+                  sectionCode: sectionCodeThis,
+                  subjectCode: subjectCode,
+                  subjectName: newSubjectName,
+                  subjectTeacherID: newTID
+                };
+                refSubjects.push(pushSubjectNew).then(function() {
+                  $('#alert-success-new-subject').removeClass('hide');
+                  $row.remove();
+                }).catch(function(error) {
+                  $('#alert-danger-new-subject').removeClass('hide');
+                });
+                //NEW SECTIONSHANDLED
+                const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
+                var updateTeacherSubj = {};
+                updateTeacherSubj = {
+                  SectionCode: sectionCodeThis,
+                  Subject: newSubjectName,
+                  subjectCode: subjectCode
                 }
-              });
-              //NEW SUBJECT NAME
-              var pushSubject = {};
-              pushSubject = {
-                sectionCode: sectionCode,
-                subjectCode: newSubjectCode,
-                subjectName: newSubjectName,
-                subjectTeacherID: newTID
-              };
-              refSubjects.push(pushSubject).then(function() {
-                $('#alert-success-new-subject').removeClass('hide');
-                $row.remove();
-              }).catch(function(error) {
-                $('#alert-danger-new-subject').removeClass('hide');
-              });
-              //NEW SECTIONSHANDLED
-              const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
-              var updateTeacherSubj = {};
-              updateTeacherSubj = {
-                SectionCode: sectionCode,
-                Subject: newSubjectName,
-                subjectCode: newSubjectCode
-              }
-              refSectionsHandled.push(updateTeacherSubj).then(function() {
-                $('#alert-success-new-subject').removeClass('hide');
-                $row.remove();
-              }).catch(function(error) {
-                $('#alert-danger-new-subject').removeClass('hide');
+                refSectionsHandled.push(updateTeacherSubj);
+                // .then(function() {
+                //   $('#alert-success-new-subject').removeClass('hide');
+                //   $row.remove();
+                // }).catch(function(error) {
+                //   $('#alert-danger-new-subject').removeClass('hide');
+                // });
               });
             }
           });
