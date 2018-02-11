@@ -95,7 +95,14 @@ btnLogin.addEventListener('click', e  => {
   });
 
   //IF THERE IS AN ERROR IN LOGINS
-  promise.catch(e =>  console.log(e.message));
+  promise.catch(error => {
+    console.log(error.message);
+    $( "#alert-boxes" ).append( "<div class='alert alert-danger alert-dismissable'>"+ error.message + "</div>").delay(5000).queue(function(next) {
+      $('.alert-danger').fadeOut('slow').remove();
+    });
+  }
+
+  );
 });
 
 });

@@ -87,7 +87,7 @@ $(function() {
                     minlength: "Your password must be at least 6 characters long",
                     equalTo: "Please enter the same password as above"
                   },
-                  email: "Please enter a valid email address"
+                  email: "Please enter a valid email address."
                 },
                 submitHandler: function(form) {
                   var newFullname = $("#fullname").val();

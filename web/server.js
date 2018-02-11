@@ -83,6 +83,9 @@ app.get('/display-grades', function(req, res, next) {
 app.get('/settings-teacher', function(req, res, next) {
   res.sendView('settings-teacher.html');
 });
+app.get('/index-email', function(req, res, next) {
+  res.sendView('index-email.html');
+});
 /*******************************************************
           APP POST STUDENT
 *******************************************************/
