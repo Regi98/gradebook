@@ -136,6 +136,9 @@ $(window).on('load', function() {
                 if (emailCount != 0) {
                   currentUser.updateEmail(newEmail).then(function() {
                     // Update successful.
+                    firebase.database().ref("Teachers/" + firebase.auth().currentUser.uid).update({
+                     email: newEmail
+                    });
                     $('#alert-success-email').removeClass('hide');
                   }).catch(function(error) {
                     // An error happened.
