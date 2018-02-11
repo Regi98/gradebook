@@ -108,6 +108,10 @@ $(function() {
             var sectionCode = $row.find("td:nth-child(2)").html();
             $("#sectionName").html(sectionName);
             $("#sectionCode").html(sectionCode);
+            refSections.orderByChild("sectionCode").equalTo(sectionCode).once("child_added", function(snapshot) {
+              var secGrade = snapshot.child("secGrade").val();
+              $("#sectionGrade").html(secGrade);
+            });
             event.preventDefault();
             $('.cd-popup').addClass('is-visible');
             refSubjects.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
@@ -118,7 +122,7 @@ $(function() {
               var selectTeacher = gidGenerator();
               var subjectName = snapshot.child('subjectName').val();
               var subjectCode = snapshot.child('subjectCode').val();
-              $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><h5 id="' + subjectTeacher + '"></h5><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject" >Remove</button></td></tr>');
+              $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><h6 id="' + subjectTeacher + '"></h6><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject-set" >Remove</button></td></tr>');
               //SELECT TEACHER
               const refTeacher = database.ref('Teachers/');
               refTeacher.on("child_added", function(snapshot) {
@@ -144,9 +148,11 @@ $(function() {
             var $row = $(this).closest("tr").off("mousedown");
             var parentKey = $row.find("td:nth-child(1)").html();
             var subjectCode = $row.find("td:nth-child(2)").html();
-            var subjectName = $row.find("input:nth-child(2)").val();
+            var subjName = $row.find("input:nth-child(2)").val();
+            var replaced = subjName.replace(/[^a-z0-9\s]/gi, '');
+            var subjectName = $.trim(replaced);
             var sectionCode = $("#sectionCode").text();
-            var currSubjectTeacher = $row.find("td:nth-child(4) h5").text();
+            var currSubjectTeacher = $row.find("td:nth-child(4) h6").text();
             var arr1 = currSubjectTeacher.split('|');
             const currTID = $.trim(arr1[0]);
             const currFullName = $.trim(arr1[1]);
@@ -155,6 +161,7 @@ $(function() {
             const newTID = $.trim(arr[0]);
             const newFullName = $.trim(arr[1]);
             const refSubject = database.ref('Subjects/' + parentKey);
+
             //EDIT SUBJECT NAME
             var updateSubject = {};
             updateSubject = {
@@ -166,7 +173,7 @@ $(function() {
               $('#alert-danger-edit-subject').removeClass('hide');
             });
             //SEE IF THERE IS AN EXISTING TEACHER
-            var count = $.trim($row.find("td:nth-child(4) h5").html()).length;
+            var count = $.trim($row.find("td:nth-child(4) h6").html()).length;
             if (count == 0) {
               //EDIT subjectTeacherID
               var updateSubject = {};
@@ -190,8 +197,8 @@ $(function() {
               }).catch(function(error) {
                 $('#alert-danger-edit-teacher').removeClass('hide');
               });
-            } else if (count != 0) {
-              $row.find("td:nth-child(4) h5").empty();
+            } else if (count != 0 && currFullName != newFullName) {
+              $row.find("td:nth-child(4) h6").empty();
               //EDIT subjectTeacherID
               var updateSubject = {};
               updateSubject = {
@@ -202,7 +209,7 @@ $(function() {
               }).catch(function(error) {
                 $('#alert-danger-edit-subject').removeClass('hide');
               });
-              $row.find("td:nth-child(4) h5").empty();
+              $row.find("td:nth-child(4) h6").empty();
               //Dalete sectionsHandled
               const refSectionsHandledDel = database.ref().child('sectionsHandled/' + currTID + "/");
               refSectionsHandledDel.orderByChild("subjectCode").equalTo(subjectCode).once("child_added", function(snapshot) {
@@ -235,66 +242,44 @@ $(function() {
             }
           });
           //REMOVE SUBJECT IN POPUP
-          $("#subjectTable").on('mousedown', "button.btn.btn-sm.btn-danger.subject", function(e) {
+          $("#subjectTable").on('mousedown', "button.btn.btn-sm.btn-danger.subject-set", function(e) {
             var $row = $(this).closest("tr").off("mousedown");
             var parentKey = $row.find("td:nth-child(1)").html();
+            var secGrade = $("#sectionGrade").html();
             var subjectCode = $row.find("td:nth-child(2)").html();
             var subjectName = $row.find("input:nth-child(2)").val();
-            var currSubjectTeacher = $row.find("td:nth-child(4) h5").text();
+            var currSubjectTeacher = $row.find("td:nth-child(4) h6").text();
             var arr1 = currSubjectTeacher.split('|');
             const currTID = $.trim(arr1[0]);
             const currFullName = $.trim(arr1[1]);
             const refSubject = database.ref('Subjects/' + parentKey);
             //SEE IF THERE IS AN EXISTING TEACHER
-            var count = $.trim($row.find("td:nth-child(4) h5").html()).length;
-            if (count != 0) {
-              //Dalete sectionsHandled
-              const refSectionsHandledDel = database.ref().child('sectionsHandled/' + currTID + "/");
-              refSectionsHandledDel.orderByChild("subjectCode").equalTo(subjectCode).once("child_added", function(snapshot) {
-                //Update in database
-                refSectionsHandledDel.child(snapshot.key).remove().then(function() {
-                  $('#alert-danger-remove-teacher').addClass('hide');
-                  $('#alert-success-remove-teacher').removeClass('hide');
-                }).catch(function(error) {
-                  $('#alert-success-remove-teacher').addClass('hide');
-                  $('#alert-danger-remove-teacher').removeClass('hide');
+            var count = $.trim($row.find("td:nth-child(4) h6").html()).length;
+            if (count == 0) {
+              alert(secGrade);
+              //Dalete in database
+                refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
+                  var sectionCode = snapshot.child("sectionCode").val();
+                  alert("sectionCode "+ sectionCode);
+                    refSubjects.orderByChild("sectionCode").equalTo(sectionCode).on("child_added", function(snapshot) {
+                      var subName = snapshot.child("subjectName").val();
+                      if (subjectName == subName) {
+                        var parentKey = snapshot.key;
+                        alert(parentKey);
+                        refSubjects.child(parentKey).remove();
+                        $(this).closest("tr").remove();
+                      }
+                      else{
+                        console.log("Different subject");
+                      }
+                      $('#alert-danger-remove-subject').addClass('hide');
+                      $('#alert-success-remove-subject').removeClass('hide');
+                    }).catch(function(error) {
+                      $('#alert-success-remove-subject').addClass('hide');
+                      $('#alert-danger-remove-subject').removeClass('hide');
+                    });
                 });
-              });
-            }
-            //Dalete sectionsHandled other subjs
-            const refSectionsHandledDel = database.ref().child('sectionsHandled/');
-            refSectionsHandledDel.orderByChild("Subject").equalTo(subjectName).on("child_added", function(snapshot) {
-              //Update in database
-              const refSectionsHandledDel = database.ref().child('sectionsHandled/');
-              refSectionsHandledDel.orderByChild("Subject").equalTo(subjectName).on("child_added", function(snapshot) {z
-                var TID = snap.child("TID").val();
-                var fullName = snap.child("fullname").val();
-
-                const refSectionsHandled = database.ref().child('sectionsHandled/' + TID);
-                refSectionsHandled.orderByChild("subjectCode").equalTo(subjectCode).once("child_added", function(snapshot) {
-                  $('#' + subjectTeacher + '').append(TID + " | " + fullName);
-                  $('#' + selectTeacher + '').val("" + TID + " | " + fullName + "");
-                });
-              });
-              refSectionsHandledDel.child(snapshot.key).remove();
-            });
-            //Dalete in database
-            refSubjects.orderByChild("subjectCode").equalTo(subjectCode).on("child_added", function(snapshot) {
-              //Update in database
-              refSubjects.child(snapshot.key).remove().then(function() {
-                $(this).closest("tr").remove();
-                $('#alert-danger-remove-subject').addClass('hide');
-                $('#alert-success-remove-subject').removeClass('hide');
-              }).catch(function(error) {
-                $('#alert-success-remove-subject').addClass('hide');
-                $('#alert-danger-remove-subject').removeClass('hide');
-              });
-            });
-            //Dalete in database
-            refSubjects.orderByChild("subjectName").equalTo(subjectName).on("child_added", function(snapshot) {
-              //Update in database
-              refSubjects.child(snapshot.key).remove();
-            });
+            } else {}
             $(this).closest("tr").remove();
           });
           //close popup
@@ -321,7 +306,7 @@ $(function() {
             var subjectTeacher = gidGenerator();
             var selectTeacher = gidGenerator();
             var subjectCode = guidGenerator();
-            $("#subjectTable tbody").append('<tr><td>New</td><td>' + subjectCode + '</td><td><input id="txtNewSubjectName"  class="chkNew" style="width: 85%"/></td>&nbsp;<td><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnAddNewSubject" type="button" class="btn btn-sm btn-success new-subject" style="display: inline-block;">Save</button></td><td><button id="btnRemoveNewSubject" type="button" class="btn btn-sm btn-danger subject" >Remove</button></td></tr>');
+            $("#subjectTable tbody").append('<tr><td>New</td><td></td><td><input id="txtNewSubjectName"  class="chkNew" style="width: 85%"/></td>&nbsp;<td><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnAddNewSubject" type="button" class="btn btn-sm btn-success new-subject" style="display: inline-block;">Save</button></td><td><button id="btnRemoveNewSubject" type="button" class="btn btn-sm btn-danger subject" >Remove</button></td></tr>');
             //SELECT TEACHER
             const refTeacher = database.ref('Teachers/');
             refTeacher.on("child_added", function(snapshot) {
@@ -335,78 +320,62 @@ $(function() {
             var $row = $(this).closest("tr").off("mousedown");
             var sectionGrade = $("#sectionGrade").html();
             var sectionCode = $("#sectionCode").html();
-            var newSubjectCode = $row.find("td:nth-child(2)").html();
-            var newSubjectName = $row.find("#txtNewSubjectName").val();
+            // var newSubjectCode = $row.find("td:nth-child(2)").html();
+            var newSubjName = $row.find("#txtNewSubjectName").val();
+            var replaced = newSubjName.replace(/[^a-z0-9\s]/gi, '');
+            var newSubjectName = $.trim(replaced);
             var selectTeacher = $row.find("td:nth-child(4) select").val();
             var arr = selectTeacher.split('|');
             const newTID = $.trim(arr[0]);
             const newFullName = $.trim(arr[1]);
             if (selectTeacher == 'false') {
-              //NEW SUBJECT NAME
-              var pushSubject = {};
-              pushSubject = {
-                sectionCode: sectionCode,
-                subjectCode: newSubjectCode,
-                subjectName: newSubjectName
-              };
-              refSubjects.push(pushSubject).then(function() {
-                $('#alert-success-new-subject').removeClass('hide');
-                $row.remove();
-              }).catch(function(error) {
-                $('#alert-danger-new-subject').removeClass('hide');
-              });
+
               //ADD TO OTHER SECTION SAME GRADE
-              const refSectionsGrade = database.ref('Sections').orderByChild("sectionCode").equalTo(sectionCode);
-              refSectionsGrade.on("child_added", snap => {
-                var secGrade = snap.child("secGrade").val();
-                refSections.orderByChild("secGrade").equalTo(secGrade).on("value", function(snapshot) {
-                  var sectionCodeThis = snapshot.child("sectionCode").val();
-                  var subjectCode = guidGenerator();
-                  if (sectionCodeThis != sectionCode) {
-                    var pushSubjectNew = {};
-                    pushSubjectNew = {
-                      sectionCode: sectionCodeThis,
-                      subjectCode: newSubjectCode,
-                      subjectName: newSubjectName,
-                      subjectTeacherID: false
-                    };
-                    refSubjects.push(pushSubjectNew);
-                  }
-                  else{
-                    console.log("Already have.");
-                  }
+              refSections.orderByChild("secGrade").equalTo(sectionGrade).on("child_added", function(snapshot) {
+                var sectionCodeThis = snapshot.child("sectionCode").val();
+                var subjectCode = guidGenerator();
+                var pushSubjectNew = {};
+                pushSubjectNew = {
+                  sectionCode: sectionCodeThis,
+                  subjectCode: subjectCode,
+                  subjectName: newSubjectName,
+                  subjectTeacherID: false
+                };
+                refSubjects.push(pushSubjectNew).then(function() {
+                  $('#alert-success-new-subject').removeClass('hide');
+                  $row.remove();
+                }).catch(function(error) {
+                  $('#alert-danger-new-subject').removeClass('hide');
                 });
               });
+
             } else {
               //ADD TO OTHER SECTION SAME GRADE
-              const refSectionsGrade = database.ref('Sections').orderByChild("sectionCode").equalTo(sectionCode);
-              refSectionsGrade.on("child_added", snap => {
-                var secGrade = snap.child("secGrade").val();
-                refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
-                  var sectionCodeThis = snapshot.child("sectionCode").val();
-                  var subjectCode = guidGenerator();
-                  if (sectionCodeThis != sectionCode) {
-                    var pushSubjectNew = {};
-                    pushSubjectNew = {
-                      sectionCode: sectionCodeThis,
-                      subjectCode: newSubjectCode,
-                      subjectName: newSubjectName,
-                      subjectTeacherID: newTID
-                    };
-                    refSubjects.push(pushSubjectNew);
-                    const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
-                    var updateTeacherSubj = {};
-                    updateTeacherSubj = {
-                      SectionCode: sectionCodeThis,
-                      Subject: newSubjectName,
-                      subjectCode: subjectCode
-                    };
-                    refSectionsHandled.push(updateTeacherSubj)
-                  }
-                  else{
-                    console.log("Already have.");
-                  }
-                });
+
+              refSections.orderByChild("secGrade").equalTo(sectionGrade).on("child_added", function(snapshot) {
+                var sectionCodeThis = snapshot.child("sectionCode").val();
+                var subjectCode = guidGenerator();
+                if (sectionCodeThis != sectionCode) {
+                  var pushSubjectNew = {};
+                  pushSubjectNew = {
+                    sectionCode: sectionCodeThis,
+                    subjectCode: subjectCode,
+                    subjectName: newSubjectName,
+                    subjectTeacherID: newTID
+                  };
+                  refSubjects.push(pushSubjectNew);
+                  const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
+                  var updateTeacherSubj = {};
+                  updateTeacherSubj = {
+                    SectionCode: sectionCodeThis,
+                    Subject: newSubjectName,
+                    subjectCode: subjectCode,
+                    subjectTeacherID: newTID
+                  };
+                  refSectionsHandled.push(updateTeacherSubj)
+                } else {
+                  console.log("Already have.");
+                }
               });
               //NEW SUBJECT NAME
               var pushSubject = {};
@@ -422,33 +391,24 @@ $(function() {
               }).catch(function(error) {
                 $('#alert-danger-new-subject').removeClass('hide');
               });
-              //NEW subjectTeacherID
-              var updateSubject = {};
-              updateSubject = {
-                subjectTeacherID: newTID
-              };
               //NEW SECTIONSHANDLED
-              refSubjects.push(updateSubject).then(function() {
-                const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
-                var updateTeacherSubj = {};
-                updateTeacherSubj = {
-                  SectionCode: sectionCode,
-                  Subject: newSubjectName,
-                  subjectCode: newSubjectCode
-                };
-                refSectionsHandled.push(updateTeacherSubj).then(function() {
-                  $('#alert-success-new-subject').removeClass('hide');
-                  $row.remove();
-                }).catch(function(error) {
-                  $('#alert-danger-new-subject').removeClass('hide');
-                });
+              const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
+              var updateTeacherSubj = {};
+              updateTeacherSubj = {
+                SectionCode: sectionCode,
+                Subject: newSubjectName,
+                subjectCode: newSubjectCode
+              }
+              refSectionsHandled.push(updateTeacherSubj).then(function() {
+                $('#alert-success-new-subject').removeClass('hide');
+                $row.remove();
               }).catch(function(error) {
                 $('#alert-danger-new-subject').removeClass('hide');
               });
             }
           });
           //REMOVE ADD MORE SUBJECT
-          $('#btnRemoveNewSubject').on('click', function(event) {
+          $("#subjectTable").on('mousedown', "button.btn.btn-sm.btn-danger.subject", function(e) {
             $(this).closest("tr").remove();
           });
           refSubjects.on("child_added", snapshot => {
@@ -459,7 +419,7 @@ $(function() {
             var selectTeacher = gidGenerator();
             var subjectName = snapshot.child('subjectName').val();
             var subjectCode = snapshot.child('subjectCode').val();
-            $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><h5 id="' + subjectTeacher + '"></h5><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject" >Remove</button></td></tr>');
+            $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><h6 id="' + subjectTeacher + '"></h6><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject" >Remove</button></td></tr>');
             //SELECT TEACHER
             const refTeacher = database.ref('Teachers/');
             refTeacher.on("child_added", function(snapshot) {
@@ -877,10 +837,11 @@ $(function() {
           }
 
           function guidGenerator() {
-            var S4 = function() {
-              return (((1 + Math.random()) * 0x1000) | 0).toString(16).substring(1);
-            };
-            return (S4() + S4());
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (var i = 0; i < 5; i++)
+              text += possible.charAt(Math.floor(Math.random() * possible.length));
+            return ("SB" + text);
           }
 
         } else if (role == "Teacher") {
