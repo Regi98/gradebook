@@ -33,8 +33,8 @@ $(function() {
 
   //create references
   const database = firebase.database();
-  const refSections = database.ref('Sections/');
-  const refSubjects = database.ref('Subjects/');
+  const refSections = database.ref('Sections');
+  const refSubjects = database.ref('Subjects');
   const section = document.getElementById("section");
   const txtEmail = document.getElementById('txtEmail');
   const btnLogin = document.getElementById('btnLogin');
@@ -259,9 +259,25 @@ $(function() {
                   $('#alert-success-remove-teacher').addClass('hide');
                   $('#alert-danger-remove-teacher').removeClass('hide');
                 });
-
               });
             }
+            //Dalete sectionsHandled other subjs
+            const refSectionsHandledDel = database.ref().child('sectionsHandled/');
+            refSectionsHandledDel.orderByChild("Subject").equalTo(subjectName).on("child_added", function(snapshot) {
+              //Update in database
+              const refSectionsHandledDel = database.ref().child('sectionsHandled/');
+              refSectionsHandledDel.orderByChild("Subject").equalTo(subjectName).on("child_added", function(snapshot) {z
+                var TID = snap.child("TID").val();
+                var fullName = snap.child("fullname").val();
+
+                const refSectionsHandled = database.ref().child('sectionsHandled/' + TID);
+                refSectionsHandled.orderByChild("subjectCode").equalTo(subjectCode).once("child_added", function(snapshot) {
+                  $('#' + subjectTeacher + '').append(TID + " | " + fullName);
+                  $('#' + selectTeacher + '').val("" + TID + " | " + fullName + "");
+                });
+              });
+              refSectionsHandledDel.child(snapshot.key).remove();
+            });
             //Dalete in database
             refSubjects.orderByChild("subjectCode").equalTo(subjectCode).on("child_added", function(snapshot) {
               //Update in database
@@ -273,7 +289,11 @@ $(function() {
                 $('#alert-success-remove-subject').addClass('hide');
                 $('#alert-danger-remove-subject').removeClass('hide');
               });
-
+            });
+            //Dalete in database
+            refSubjects.orderByChild("subjectName").equalTo(subjectName).on("child_added", function(snapshot) {
+              //Update in database
+              refSubjects.child(snapshot.key).remove();
             });
             $(this).closest("tr").remove();
           });
@@ -313,6 +333,7 @@ $(function() {
           //SAVE NEW SUBJECT IN POPUP
           $("#subjectTable").on('mousedown', "button.btn.btn-sm.btn-success.new-subject", function(e) {
             var $row = $(this).closest("tr").off("mousedown");
+            var sectionGrade = $("#sectionGrade").html();
             var sectionCode = $("#sectionCode").html();
             var newSubjectCode = $row.find("td:nth-child(2)").html();
             var newSubjectName = $row.find("#txtNewSubjectName").val();
@@ -320,7 +341,6 @@ $(function() {
             var arr = selectTeacher.split('|');
             const newTID = $.trim(arr[0]);
             const newFullName = $.trim(arr[1]);
-            const refSubject = database.ref('Subjects/');
             if (selectTeacher == 'false') {
               //NEW SUBJECT NAME
               var pushSubject = {};
@@ -329,29 +349,65 @@ $(function() {
                 subjectCode: newSubjectCode,
                 subjectName: newSubjectName
               };
-              refSubject.push(pushSubject).then(function() {
+              refSubjects.push(pushSubject).then(function() {
                 $('#alert-success-new-subject').removeClass('hide');
                 $row.remove();
               }).catch(function(error) {
                 $('#alert-danger-new-subject').removeClass('hide');
               });
-              refSections.orderByChild("sectionCode").equalTo(sectionCode).once("child_added", function(snapshot) {
-                var secGrade = snapshot.child("secGrade");
-                alert("1"+ secGrade);
-                refSections.orderByChild("secGrade").equalTo(secGrade).once("child_added", function(snapshot) {
-                  var sectionCode = snapshot.child("sectionCode");
+              //ADD TO OTHER SECTION SAME GRADE
+              const refSectionsGrade = database.ref('Sections').orderByChild("sectionCode").equalTo(sectionCode);
+              refSectionsGrade.on("child_added", snap => {
+                var secGrade = snap.child("secGrade").val();
+                refSections.orderByChild("secGrade").equalTo(secGrade).on("value", function(snapshot) {
+                  var sectionCodeThis = snapshot.child("sectionCode").val();
                   var subjectCode = guidGenerator();
-                  alert("2"+ sectionCode+" "+ subjectCode);
-                  pushSubjectNew = {
-                    sectionCode: sectionCode,
-                    subjectCode: newSubjectCode,
-                    subjectName: newSubjectName,
-                    subjectTeacherID: false
-                  };
-                  refSubjects.push(pushSubjectNew);
+                  if (sectionCodeThis != sectionCode) {
+                    var pushSubjectNew = {};
+                    pushSubjectNew = {
+                      sectionCode: sectionCodeThis,
+                      subjectCode: newSubjectCode,
+                      subjectName: newSubjectName,
+                      subjectTeacherID: false
+                    };
+                    refSubjects.push(pushSubjectNew);
+                  }
+                  else{
+                    console.log("Already have.");
+                  }
                 });
               });
             } else {
+              //ADD TO OTHER SECTION SAME GRADE
+              const refSectionsGrade = database.ref('Sections').orderByChild("sectionCode").equalTo(sectionCode);
+              refSectionsGrade.on("child_added", snap => {
+                var secGrade = snap.child("secGrade").val();
+                refSections.orderByChild("secGrade").equalTo(secGrade).on("child_added", function(snapshot) {
+                  var sectionCodeThis = snapshot.child("sectionCode").val();
+                  var subjectCode = guidGenerator();
+                  if (sectionCodeThis != sectionCode) {
+                    var pushSubjectNew = {};
+                    pushSubjectNew = {
+                      sectionCode: sectionCodeThis,
+                      subjectCode: newSubjectCode,
+                      subjectName: newSubjectName,
+                      subjectTeacherID: newTID
+                    };
+                    refSubjects.push(pushSubjectNew);
+                    const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
+                    var updateTeacherSubj = {};
+                    updateTeacherSubj = {
+                      SectionCode: sectionCodeThis,
+                      Subject: newSubjectName,
+                      subjectCode: subjectCode
+                    };
+                    refSectionsHandled.push(updateTeacherSubj)
+                  }
+                  else{
+                    console.log("Already have.");
+                  }
+                });
+              });
               //NEW SUBJECT NAME
               var pushSubject = {};
               pushSubject = {
@@ -360,7 +416,7 @@ $(function() {
                 subjectName: newSubjectName,
                 subjectTeacherID: newTID
               };
-              refSubject.push(pushSubject).then(function() {
+              refSubjects.push(pushSubject).then(function() {
                 $('#alert-success-new-subject').removeClass('hide');
                 $row.remove();
               }).catch(function(error) {
@@ -372,7 +428,7 @@ $(function() {
                 subjectTeacherID: newTID
               };
               //NEW SECTIONSHANDLED
-              refSubject.push(updateSubject).then(function() {
+              refSubjects.push(updateSubject).then(function() {
                 const refSectionsHandled = database.ref().child('sectionsHandled/' + newTID);
                 var updateTeacherSubj = {};
                 updateTeacherSubj = {

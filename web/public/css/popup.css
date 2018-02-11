@@ -135,7 +135,7 @@ xpopup
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
-  overflow-y:scroll;
+  overflow:scroll;
   height: 100%;
   padding-bottom: 10%;
 }
