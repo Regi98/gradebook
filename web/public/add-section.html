@@ -317,7 +317,6 @@
                   <h6 id="sectionGrade"></h6>
                 </td>
                 <br></tr>
-
             </table>
             <div id="alert-success-new-subject" class="alert alert-success hide alert-dismissable">
               <a href="#" class="close"  aria-label="close">×</a>
@@ -351,16 +350,18 @@
               <a href="#" class="close"  aria-label="close">×</a>
               <strong>Error!</strong> Failed to remove subject.
             </div>
-            <table id="subjectTable" class="table table-striped table-bordered" width="100%">
+            <table id="datatable-subjects" class="table table-hover table-striped" width="100%" style="width:100%">
               <thead>
                 <tr>
-                  <th>Subject Code</th>
-                  <th>Subject Name</th>
-                  <th>Subject Teacher</th>
-                  <th colspan="2">Action</th>
+                  <th class="export-col">Subject Code</th>
+                  <th class="export-col">Subject Name</th>
+                  <th class="export-col">Subject Teacher</th>
+                  <th class="export-col" colspan="2">Action</th>
+                  <th>Subjects</th>
+                  <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="table_body">
               </tbody>
             </table>
             <button id="btnAddMoreSubject" type="button" class="btn btn-sm btn-success" style="display: inline-block; ">Add more subject</button><br><br>
