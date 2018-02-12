@@ -69,7 +69,7 @@ $(function() {
             var email = snap.child("email").val();
             //Get the parent key of editing row
             //Get the parent key of editing row
-              $("#datatable-buttons").DataTable().row(0).data([TID, name, email, '<button id="btnResetPw" type="button" class="btn btn-sm btn-secondary mr-2">Reset Password</button>', '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
+              $("#datatable-buttons").DataTable().row().data([TID, name, email, '<button id="btnResetPw" type="button" class="btn btn-sm btn-secondary mr-2">Reset Password</button>', '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
 
           });
           rootRef.on("child_removed", snap => {
@@ -119,21 +119,18 @@ $(function() {
                   var dvCSV = document.getElementById("tableCSV");
                   dvCSV.innerHTML = "";
                   dvCSV.appendChild(table);
-                  $('#alert-boxes').append('<div class="alert alert-info alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> CSV file has been loaded.</div>').fadeIn('slow').delay(4000).queue(function(next) {
-                    $('.alert.alert-dismissable').fadeOut('slow').remove();
-                  });
+                  $('#alert-boxes').append('<div class="alert alert-info alert-dismissable">CSV file has been loaded.</div>');
+                  $('.alert-danger').delay(4000).fadeOut('slow');
                 }
                 reader.readAsText(fileUpload.files[0]);
                 $("#uploadFirebaseA").show();
               } else {
-                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> This browser doesn\'t support HTML5</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                  $('.alert.alert-dismissable').fadeOut('slow').remove();
-                });
+                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">This browser doesn\'t support HTML5</div>');
+                $('.alert-danger').delay(4000).fadeOut('slow');
               }
             } else {
-              $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong> Please upload a valid CSV file. </div>').fadeIn('slow').delay(5000).queue(function(next) {
-                $('.alert.alert-dismissable').fadeOut('slow').remove();
-              });
+              $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">Please upload a valid CSV file. </div>');
+              $('.alert-danger').delay(4000).fadeOut('slow');
             }
           });
 
@@ -155,13 +152,11 @@ $(function() {
                 name: fname
               }, function(data) {
                 if (data === 'Submitted') {
-                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Accounts has been uploaded.</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                    $('.alert.alert-dismissable').fadeOut('slow').remove();
-                  });
+                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Accounts has been uploaded.</div>');
+                  $('.alert-success').delay(4000).fadeOut('slow');
                 } else {
-                  $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong>&nbsp;' + data + '</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                    $('.alert.alert-dismissable').fadeOut('slow').remove();
-                  });
+                  $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">' + data + '</div>');
+                  $('.alert-danger').delay(4000).fadeOut('slow');
                 }
               });
             });
@@ -196,14 +191,11 @@ $(function() {
               name: txtfName,
             }, function(data) {
               if (data === 'Submitted') {
-                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Accounts has been uploaded.</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                  $('.alert.alert-dismissable').fadeOut('slow').remove();
-                });
+                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Accounts has been uploaded.</div>');
+                $('.alert-success').delay(4000).fadeOut('slow');
               } else {
-                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong>&nbsp;' + data + '</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                  $('.alert.alert-dismissable').fadeOut('slow').remove();
-                });
-
+                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">&nbsp;' + data + '</div>');
+                $('.alert-danger').delay(4000).fadeOut('slow');
               }
             });
 
@@ -292,9 +284,11 @@ $(function() {
               name: fullName
             }, function(data) {
               if (data === 'Submitted') {
-                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Account has been updated.</div>').fadeIn('slow').delay(5000).fadeOut('slow');
+                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Account has been updated.</div>');
+                $('.alert-success').delay(4000).fadeOut('slow');
               } else {
-                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong>&nbsp;' + data + '</div>').fadeIn('slow').delay(5000).fadeOut('slow');
+                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">&nbsp;' + data + '</div>');
+                $('.alert-danger').delay(4000).fadeOut('slow');
               }
             });
             $(this).removeClass().addClass("fa fa-pencil-square");
@@ -310,13 +304,11 @@ $(function() {
               user: TID
             }, function(data) {
               if (data === 'Submitted') {
-                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Account has been deleted.</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                  $('.alert.alert-dismissable').fadeOut('slow').remove();
-                });
+                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Account has been deleted.</div>');
+                $('.alert-success').delay(4000).fadeOut('slow');
               } else {
-                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error!</strong >&nbsp;' + data + '</div>').fadeIn('slow').delay(5000).queue(function(next) {
-                  $('.alert.alert-dismissable').fadeOut('slow').remove();
-                });
+                $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">&nbsp;' + data + '</div>')
+                $('.alert-danger').delay(4000).fadeOut('slow');
               }
               $('#datatable-buttons').DataTable().row($row).remove().draw();
             });

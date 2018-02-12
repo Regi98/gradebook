@@ -307,7 +307,7 @@ app.post('/updateUserTeacher', function(req, res, next) {
           console.log(error.message);
           console.log("User not Created!");
         });
-        const refUsersEdit = database.ref().child('Users/' + uid);
+        const refUsersEdit = database.ref().child('users/' + uid);
         refUsersEdit.update({
           fullname: name
         }).then(function() {
@@ -346,6 +346,7 @@ app.post('/updateUserPwTeacher', function(req, res, next) {
         .then(function(userRecord) {
           // See the UserRecord reference doc for the contents of userRecord.
           //Update in database
+          console.log(password);
           console.log("Successfully updated user's password", userRecord.toJSON());
           console.log("Successfully updated user's Password:", userRecord.uid);
           res.end(user_name + " " + name);
@@ -405,6 +406,54 @@ app.post('/deleteUserTeacher', function(req, res, next) {
     console.log(error.message);
   });
 });
+/*******************************************************
+          APP POST SECTION & SUBJCTS
+*******************************************************/
+// app.post('/addSection', function(req, res, next) {
+//   //create references
+//   var database = admin.database();
+//   const refSections = database.ref().child('Sections/');
+//
+//   var user_name = req.body.TID;
+//   var password = req.body.password;
+//   var name = req.body.name;
+//   var role = "Teacher";
+//   var email = user_name + "@jcfc-gradebook.com";
+//
+//   admin.auth().createUser({
+//       email: email,
+//       displayName: name,
+//       password: password,
+//       disabled: false
+//     })
+//     .then(function(userRecord) {
+//       // See the UserRecord reference doc for the contents of userRecord.
+//       //Update in database
+//       const refTeachersUp = database.ref().child('Teachers/' + userRecord.uid);
+//       refTeachersUp.update({
+//         TID: user_name,
+//         fullname: name,
+//         email: ""
+//       }).then(function() {
+//         //Add to users table
+//         var pushedUser = database.ref('users/' + userRecord.uid).update({
+//           role: "Teacher",
+//           fullname: name
+//         });
+//         res.end("Submitted");
+//       }).catch(function(error) {
+//         res.end(error.message);
+//         console.log(error.message);
+//         console.log("User not Created!");
+//       });
+//       res.end("Submitted");
+//       console.log("Successfully created new user:", userRecord.uid);
+//     }).catch(function(error) {
+//       res.end(error.message);
+//       console.log(error.message);
+//     });
+//   console.log("User name: " + user_name + ", password is " + password);
+// });
 /*******************************************************
           LISTEN TO PORT
 *******************************************************/

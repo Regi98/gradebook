@@ -86,7 +86,7 @@ $(function() {
             //Get the parent key of editing row
             refSections.orderByChild("sectionCode").equalTo(code).on("child_added", function(snapshot) {
               var parentKey = snapshot.key;
-              $("#datatable-buttons").DataTable().row(0).data([parentKey, code, name, grade, '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
+              $("#datatable-buttons").DataTable().row().data([parentKey, code, name, grade, '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
             });
           });
           refSections.on("child_removed", snap => {
@@ -122,7 +122,7 @@ $(function() {
               var selectTeacher = gidGenerator();
               var subjectName = snapshot.child('subjectName').val();
               var subjectCode = snapshot.child('subjectCode').val();
-              // $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject-set" >Remove</button></td></tr>');
+              $("#subjectTable tbody").append('<tr><td>' + parentKey + '</td><td>' + subjectCode + '</td><td><input type="checkbox" id="' + chk + '" class="chk" onclick="var input = document.getElementById(\'' + input + '\'); if(this.checked){ var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=false;}else{var txtVal =  $(\'#' + input + '\').val(); $(this).val(txtVal); input.disabled=true;}" />&nbsp;<input id="' + input + '"  class="chk" style="width: 85%" disabled value="' + subjectName + '"/></td>&nbsp;<td><select id="' + selectTeacher + '" class="form-control"><option selected value="false">None</option></select></td><td><button id="btnSaveSubject" type="button" class="btn btn-sm btn-success subject" style="display: inline-block;">Save</button></td><td><button id="btnAddSubject" type="button" class="btn btn-sm btn-danger subject-set" >Remove</button></td></tr>');
               //SELECT TEACHER
               const refTeacher = database.ref('Teachers/');
               refTeacher.on("child_added", function(snapshot) {
@@ -148,7 +148,7 @@ $(function() {
             var $row = $(this).closest("tr").off("mousedown");
             var parentKey = $row.find("td:nth-child(1)").html();
             var subjectCode = $row.find("td:nth-child(2)").html();
-            var subjName = $row.find("input:nth-child(2)").val();
+            var subjName = $row.find("input:nth-child(2)").val().toUpperCase();
             var replaced = subjName.replace(/[^a-z0-9\s]/gi, '');
             var subjectName = $.trim(replaced);
             var sectionCode = $("#sectionCode").text();
@@ -350,7 +350,7 @@ $(function() {
             var sectionGrade = $("#sectionGrade").html();
             var sectionCode = $("#sectionCode").html();
             // var newSubjectCode = $row.find("td:nth-child(2)").html();
-            var newSubjName = $row.find("#txtNewSubjectName").val();
+            var newSubjName = $row.find("#txtNewSubjectName").val().toUpperCase();
             var replaced = newSubjName.replace(/[^a-z0-9\s]/gi, '');
             var newSubjectName = $.trim(replaced);
             var selectTeacher = $row.find("td:nth-child(4) select").val();
@@ -469,8 +469,13 @@ $(function() {
           //Analysis
           function sectionExistsCallback(sectionName, exists) {
             console.log(exists);
+            var sectCount= $('#txtSectionName').val().length;
             if (exists == true) {
-              $('#alert-danger-section-exists').removeClass('hide');
+              $('#alert-boxes').append( "<div class='alert alert-danger alert-dismissable'>Section already exists!</div>");
+              $('.alert-danger').delay(4000).fadeOut('slow');
+            } else if(sectCount == 0){
+              $('#alert-boxes').append( "<div class='alert alert-danger alert-dismissable'>Section already exists!</div>");
+              $('.alert-danger').delay(4000).fadeOut('slow');
             } else {
               var subjects = getValueUsingClass();
               console.log(subjects);

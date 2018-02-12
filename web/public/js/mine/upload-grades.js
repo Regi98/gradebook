@@ -3,7 +3,7 @@ var selectedFile;
 
 $(document).ready(function() {
   $("#uploadFirebase").hide();
-  $("#dvCSV").hide();
+  // $("#tableCSV").hide();
 });
 
 $(function () {
