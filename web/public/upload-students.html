@@ -81,6 +81,12 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/add-section">
+                <img src="../images/sections.png" alt="">
+                <span class="menu-title">Sections & Subjects</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
                 <img src="../images/student.png" alt="">
                 <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
@@ -108,14 +114,9 @@
               <div class="collapse" id="teachers">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <li class="nav-item">
                       <a class="nav-link" href="/upload-teachers">
                         Upload Teachers
                       </a>
-                    </li>
-                    <a class="nav-link" href="/list-teachers">
-                      List of Teachers
-                    </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/teachers-subject">
@@ -125,13 +126,6 @@
                 </ul>
               </div>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/add-section">
-                <img src="../images/sections.png" alt="">
-                <span class="menu-title">Sections & Subjects</span>
-              </a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="/settings-admin">
                 <img src="../images/settings.png" alt="">
@@ -140,6 +134,7 @@
             </li>
           </ul>
         </nav>
+s
 
         <!-- partial -->
         <div class="content-wrapper">
@@ -152,15 +147,15 @@
                   <hr>
                   <form class="forms-sample">
                     <div class="form-group">
-                      <p>Choose from the following options below to upload data from a specific section.</p>
+                      <p>This input is strictly filtered to receive .csv file ONLY. Make sure all information are final as account credentials will be created with the data from the csv file.</p>
                         <select id="sectionDataUp" class="form-control" style="width: 250px !important;">
                             <option value="NONE" disabled selected >Select section</option>
                         </select>
                       <input type="file" id="fileUploadAccounts">
                     </div>
                     <div class="form-group">
-                      <div class="alert alert-success">
-                        <h6>Directions</h6>
+                      <div class="alert alert-success shoo">
+                        <h6>< Directions ></h6>
                         1. Select the CSV file containing student accounts.<br>
                         2. Click on 'Load file' to process data from csv.<br>
                         3. A button will appear. <br>
@@ -216,12 +211,12 @@
         <div id="alert-boxes"></div>
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="float-right">
-                <a href="#">JCFC | Gradebook</a> &copy; 2017
-            </span>
-          </div>
-        </footer>
+  <div class="container-fluid clearfix">
+    <span class="float-right">
+        <a href="#">Lopez | Maun | Franco | Cosme</a> &copy; 2017
+    </span>
+  </div>
+</footer>
 
         <!-- partial -->
       </div>

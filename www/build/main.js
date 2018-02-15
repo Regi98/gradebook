@@ -224,11 +224,11 @@ webpackEmptyAsyncContext.id = 167;
 
 var map = {
 	"../pages/account-settings/account-settings.module": [
-		540,
+		539,
 		8
 	],
 	"../pages/average/average.module": [
-		539,
+		540,
 		7
 	],
 	"../pages/reset-password/reset-password.module": [
@@ -248,15 +248,15 @@ var map = {
 		3
 	],
 	"../pages/subject-average/subject-average.module": [
-		547,
+		545,
 		2
 	],
 	"../pages/subject-summary/subject-summary.module": [
-		545,
+		546,
 		1
 	],
 	"../pages/summary/summary.module": [
-		546,
+		547,
 		0
 	]
 };
@@ -415,7 +415,6 @@ SelectSubjectPage = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Item */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GradesPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
@@ -436,12 +435,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var Item = (function () {
-    function Item() {
-    }
-    return Item;
-}());
-
 var GradesPage = (function () {
     function GradesPage(navCtrl, navParams, afAuth) {
         this.navCtrl = navCtrl;
@@ -449,16 +442,10 @@ var GradesPage = (function () {
         this.afAuth = afAuth;
         this.items = [];
         this.keys = [];
-        this.afAuth.authState.subscribe(function (user) {
-            if (user)
-                console.log(user.uid);
-        });
     }
-    GradesPage.prototype.ionViewDidLoad = function () {
+    GradesPage.prototype.ionViewDidEnter = function () {
         this.quarter = this.navParams.get('quarter');
         this.subject = this.navParams.get('subject');
-        this.items = [];
-        this.keys = [];
         var sectionCode;
         var section;
         var mySubject = this.subject;
@@ -617,14 +604,13 @@ var SubjectSummaryPage = (function () {
     }
     SubjectSummaryPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SubjectSummaryPage');
-        this.subject = this.navParams.get('subject');
+        var mySubject = this.navParams.get('subject');
+        var section = this.section;
+        var first = this.first;
+        var second = this.second;
+        var third = this.third;
+        var fourth = this.fourth;
         var sectionCode;
-        var section;
-        var mySubject = this.subject;
-        var myFirst = this.first;
-        var mySecond = this.second;
-        var myThird = this.third;
-        var myFourth = this.fourth;
         var ref = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref("Students");
         ref.on('value', function (snap) {
             sectionCode = snap.child(__WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid + '/sectionCode').val();
@@ -638,33 +624,33 @@ var SubjectSummaryPage = (function () {
                     var firstRef = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref('/' + mySubject + '/' + section + '/First-Quarter/' + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
                     var secondRef = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref('/' + mySubject + '/' + section + '/Second-Quarter/' + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
                     var thirdRef = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref('/' + mySubject + '/' + section + '/Third-Quarter/' + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
-                    var fourthRef = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref('/' + mySubject + '/' + section + '/FourthQuarter/' + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
+                    var fourthRef = __WEBPACK_IMPORTED_MODULE_2_firebase_app__["database"]().ref('/' + mySubject + '/' + section + '/Fourth-Quarter/' + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
                     console.log(mySubject + section + __WEBPACK_IMPORTED_MODULE_2_firebase_app__["auth"]().currentUser.uid);
                     firstRef.on('value', function (itemSnapshot) {
                         itemSnapshot.forEach(function (itemSnap) {
                             var itemSnapKey = itemSnap.key.replace('!', '');
-                            myFirst.push({ key: itemSnapKey, value: itemSnap.val() });
+                            first.push({ key: itemSnapKey, value: itemSnap.val() });
                             return false;
                         });
                     });
                     secondRef.on('value', function (itemSnapshot) {
                         itemSnapshot.forEach(function (itemSnap) {
                             var itemSnapKey = itemSnap.key.replace('!', '');
-                            mySecond.push({ key: itemSnapKey, value: itemSnap.val() });
+                            second.push({ key: itemSnapKey, value: itemSnap.val() });
                             return false;
                         });
                     });
                     thirdRef.on('value', function (itemSnapshot) {
                         itemSnapshot.forEach(function (itemSnap) {
                             var itemSnapKey = itemSnap.key.replace('!', '');
-                            myThird.push({ key: itemSnapKey, value: itemSnap.val() });
+                            third.push({ key: itemSnapKey, value: itemSnap.val() });
                             return false;
                         });
                     });
                     fourthRef.on('value', function (itemSnapshot) {
                         itemSnapshot.forEach(function (itemSnap) {
                             var itemSnapKey = itemSnap.key.replace('!', '');
-                            myFourth.push({ key: itemSnapKey, value: itemSnap.val() });
+                            fourth.push({ key: itemSnapKey, value: itemSnap.val() });
                             return false;
                         });
                     });
@@ -758,6 +744,9 @@ var AccountSettingsPage = (function () {
         user.updateEmail(this.emailForm.value.email).then(function (user) {
             _this.loading.dismiss().then(function () {
                 _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+            });
+            __WEBPACK_IMPORTED_MODULE_6_firebase_app__["database"]().ref("Students/" + __WEBPACK_IMPORTED_MODULE_6_firebase_app__["auth"]().currentUser.uid).update({
+                email: _this.emailForm.value.email
             });
         }, function (error) {
             _this.loading.dismiss().then(function () {
@@ -938,10 +927,9 @@ SubjectAveragePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
         selector: 'page-subject-average',template:/*ion-inline-start:"C:\Users\Sony\Desktop\FinalIonic\src\pages\subject-average\subject-average.html"*/'<!--\n  Generated template for the SubjectAveragePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar color="yellow">\n    <ion-title>Grades Overview</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n<ion-list no-lines>\n  <ion-item-divider style="font-weight: bold" text-center color="light">LIST OF AVERAGES</ion-item-divider>\n  <ion-item id="list" *ngFor="let item of averages">\n    <div style="font-weight: bold" item-left>{{item.quarter}}</div>\n    <div item-right>{{item.average}}</div>\n  </ion-item>\n</ion-list>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Sony\Desktop\FinalIonic\src\pages\subject-average\subject-average.html"*/,
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
 ], SubjectAveragePage);
 
-var _a, _b;
 //# sourceMappingURL=subject-average.js.map
 
 /***/ }),
@@ -1327,15 +1315,15 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_22__angular_http__["a" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {}, {
                 links: [
-                    { loadChildren: '../pages/average/average.module#AveragePageModule', name: 'AveragePage', segment: 'average', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/account-settings/account-settings.module#AccountSettingsPageModule', name: 'AccountSettingsPage', segment: 'account-settings', priority: 'low', defaultHistory: [] },
+                    { loadChildren: '../pages/average/average.module#AveragePageModule', name: 'AveragePage', segment: 'average', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/reset-password/reset-password.module#ResetPasswordModule', name: 'ResetPassword', segment: 'reset-password', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/select-quarter/select-quarter.module#SelectQuarterPageModule', name: 'SelectQuarterPage', segment: 'select-quarter', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/select-subject/select-subject.module#SelectSubjectPageModule', name: 'SelectSubjectPage', segment: 'select-subject', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/signup/signup.module#SignupModule', name: 'Signup', segment: 'signup', priority: 'low', defaultHistory: [] },
+                    { loadChildren: '../pages/subject-average/subject-average.module#SubjectAveragePageModule', name: 'SubjectAveragePage', segment: 'subject-average', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/subject-summary/subject-summary.module#SubjectSummaryPageModule', name: 'SubjectSummaryPage', segment: 'subject-summary', priority: 'low', defaultHistory: [] },
-                    { loadChildren: '../pages/summary/summary.module#SummaryPageModule', name: 'SummaryPage', segment: 'summary', priority: 'low', defaultHistory: [] },
-                    { loadChildren: '../pages/subject-average/subject-average.module#SubjectAveragePageModule', name: 'SubjectAveragePage', segment: 'subject-average', priority: 'low', defaultHistory: [] }
+                    { loadChildren: '../pages/summary/summary.module#SummaryPageModule', name: 'SummaryPage', segment: 'summary', priority: 'low', defaultHistory: [] }
                 ]
             }),
             __WEBPACK_IMPORTED_MODULE_23_angularfire2_database__["b" /* AngularFireDatabaseModule */],

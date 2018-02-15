@@ -6,6 +6,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var bodyParser = require("body-parser");
+var fs = require('fs');
 var admin = require('firebase-admin');
 var app = express();
 var server = http.createServer(app);
@@ -406,6 +407,34 @@ app.post('/deleteUserTeacher', function(req, res, next) {
     console.log(error.message);
   });
 });
+// app.post('/deleteAllStudent', function(req, res, next) {
+//   //create references
+//   var database = admin.database();
+//   const refStudentsDel = database.ref().child('Students');
+//   // const refSubjects = database.ref().child('Subjects/');
+//   // const refUsers = database.ref().child('users/');
+//   refStudentsDel.on("child_added", function(snapshot) {
+//     var uid = snapshot.key;
+//     console.log(uid);
+//     admin.auth().deleteUser(uid).then(function(userRecord) {
+//       // See the UserRecord reference doc for the contents of userRecord.
+//       //Delete in database
+//       refStudentsDel.child(uid).remove().then(function() {
+//         console.log("Student deleted!");
+//           res.end("Submitted");
+//         }).catch(function(error) {
+//           res.end(error.message);
+//           console.log(error.message);
+//           console.log("Student not deleted!");
+//         });
+//
+//       }).catch(function(error) {
+//         res.end(error.message);
+//         console.log(error.message);
+//         console.log("User not deleted!");
+//       });
+//   });
+//   });
 /*******************************************************
           APP POST SECTION & SUBJCTS
 *******************************************************/

@@ -101,7 +101,7 @@ btnReset.addEventListener('click', e  => {
   //IF THERE IS AN ERROR IN LOGINS
   promise.catch(error => {
     console.log(error.message);
-    $( "#alert-boxes" ).append( "<div class='alert alert-danger alert-dismissable'>"+ error.message + "</div>");
+    $( "#alert-boxes-login" ).append( "<div class='alert alert-danger alert-dismissable'>"+ error.message + "</div>");
     $('.alert-danger').delay(3000).fadeOut('slow');
   }
 

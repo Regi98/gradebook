@@ -49,7 +49,7 @@ $(function() {
       console.log(currentUser);
       console.log("You are now logged in. \n UID: " + currentUser.uid + "\n Name: " + currentUser.displayName);
 
-      const refUsers = firebase.database().ref().child('users/' + firebaseUser.uid);
+      const refUsers = firebase.database().ref().child('users/' + currentUser.uid);
       refUsers.once("value", function(snapshot) {
         var data = snapshot.val();
         console.log(data);
@@ -71,7 +71,6 @@ $(function() {
               var sectionCode = snapshot.child("sectionCode").val();
 
               const rootRef = database.ref('Students').orderByChild("sectionCode").equalTo(sectionCode);
-
 
               rootRef.on("child_added", snap => {
                 var SN = snap.child("SN").val();
@@ -355,7 +354,7 @@ $(function() {
               var sectionCode = snapshot.child("sectionCode").val();
               var secName = snapshot.child("secName").val();
               $('#selectSection').append('<option value="' + sectionCode + " | " + secName + '">' + sectionCode + " | " + secName + '</option>');
-              $('#selectSection').find('option[value=' + section + ']').attr('selected', 'selected');
+              $('#selectSection').find('option[value=' + sectionCode + " | " + secName + ']').attr('selected', 'selected');
             });
             //GRADE LEVEL
             $row.find('td:nth-child(3)').html("").append('<select id="selectGradeLevel" class="form-control" width="30%"></select>');

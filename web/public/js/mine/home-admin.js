@@ -59,6 +59,51 @@ $(function() {
             document.getElementById("numSections").innerHTML = snap.numChildren();
           });
 
+
+        const deleteAllStudents = document.getElementById('deleteAllStudents');
+        deleteAllStudents.addEventListener('click', e  => {
+            const rootRef = firebase.database().ref('Students');
+
+              $.confirm({
+                title: 'DELETE ALL STUDENT!',
+                content: 'Are you sure you proceed?',
+                type: 'orange',
+                closeIcon: true,
+                buttons: {
+                  confirm: {
+                    btnClass: 'btn-green',
+                    action: function() {
+                      var self = this;
+                      return $.post("/deleteAllStudent", {
+                          user: "user"
+                      }).done(function(response) {
+                        $.alert({
+                          icon: 'fa fa-success',
+                          title: 'Success!',
+                          content: 'All student accounts has been removed',
+                          type: 'green'
+                        });
+                      }).fail(function() {
+                        $.alert({
+                          icon: 'fa fa-warning',
+                          title: 'Error',
+                          content: 'Something went wrong!',
+                          type: 'red'
+                        });
+                      });
+                    }
+                  },
+                  cancel: {
+                    btnClass: 'btn-red',
+                    type: 'yellow',
+                    action: function() {
+                      $.alert('Canceled!');
+                    }
+                  }
+                }
+              });
+            });
+
           //RANDOM CODE
           function gidGenerator() {
             var S4 = function() {

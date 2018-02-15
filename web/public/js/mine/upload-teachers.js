@@ -102,7 +102,7 @@ $(function() {
                   //     cell.innerHTML = '<input type="text" id="row' + i + 'cell' + j + '" class="row' + i + '" value="' + value + '" disabled="disabled">';
                   //   }
                   // }
-                  for (var i = 1; i < rows.length - 1; i++) {
+                  for (var i = 1; i < rows.length; i++) {
                     var row = table.insertRow(-1);
                     var cells = rows[i].split(",");
                     for (var j = 0; j < cells.length; j++) {
@@ -117,30 +117,28 @@ $(function() {
                     }
                   }
                   var dvCSV = document.getElementById("tableCSV");
-                  dvCSV.innerHTML = "";
+                  // dvCSV.innerHTML = "";
                   dvCSV.appendChild(table);
                   $('#alert-boxes').append('<div class="alert alert-info alert-dismissable">CSV file has been loaded.</div>');
-                  $('.alert-danger').delay(4000).fadeOut('slow');
+                  $('.alert-info').delay(4000).fadeOut('slow');
                 }
                 reader.readAsText(fileUpload.files[0]);
                 $("#uploadFirebaseA").show();
               } else {
                 $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">This browser doesn\'t support HTML5</div>');
-                $('.alert-danger').delay(4000).fadeOut('slow');
+                $('.alert-info').delay(4000).fadeOut('slow');
               }
             } else {
               $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">Please upload a valid CSV file. </div>');
-              $('.alert-danger').delay(4000).fadeOut('slow');
+              $('.alert-info').delay(4000).fadeOut('slow');
             }
           });
 
           //upload to db firebase
           const btnUploadFirebase = document.getElementById('uploadFirebaseA');
           btnUploadFirebase.addEventListener('click', e => {
-            console.log("click");
             var $rowData = $('#tableCSVaccounts').find('> tbody > tr').not(':last');
             $.each($rowData, function(i, el) {
-              alert(i);
               var x = i + 1;
               var teacherID = $('#row' + x + 'cell0').val();
               var password = $('#row' + x + 'cell2').val();

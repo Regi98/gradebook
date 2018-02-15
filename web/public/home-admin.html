@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="/lib/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="/lib/flag-icon-css/css/flag-icon.min.css" />
+  <link href="/lib/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/mine.css" />
 
@@ -71,6 +72,12 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/add-section">
+                <img src="../images/sections.png" alt="">
+                <span class="menu-title">Sections & Subjects</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
                 <img src="../images/student.png" alt="">
                 <span class="menu-title">Students<i class="fa fa-sort-down"></i></span>
@@ -98,14 +105,9 @@
               <div class="collapse" id="teachers">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <li class="nav-item">
                       <a class="nav-link" href="/upload-teachers">
                         Upload Teachers
                       </a>
-                    </li>
-                    <a class="nav-link" href="/list-teachers">
-                      List of Teachers
-                    </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/teachers-subject">
@@ -115,13 +117,6 @@
                 </ul>
               </div>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/add-section">
-                <img src="../images/sections.png" alt="">
-                <span class="menu-title">Sections & Subjects</span>
-              </a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="/settings-admin">
                 <img src="../images/settings.png" alt="">
@@ -130,6 +125,7 @@
             </li>
           </ul>
         </nav>
+s
 
         <!-- partial -->
         <div class="content-wrapper">
@@ -147,6 +143,7 @@
                     <div class="float-right">
                       <p class="card-text text-dark">Students</p>
                       <h4 class="bold-text" id="numStudents"></h4>
+                      <button id="deleteAllStudents" type="button" class="btn btn-sm btn-danger" style="display: inline-block; ">REMOVE ALL STUDENTS</button>
                     </div>
                   </div>
                   <p class="text-muted">
@@ -330,12 +327,12 @@
         </div>
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="float-right">
-                <a href="#">JCFC | Gradebook</a> &copy; 2017
-            </span>
-          </div>
-        </footer>
+  <div class="container-fluid clearfix">
+    <span class="float-right">
+        <a href="#">Lopez | Maun | Franco | Cosme</a> &copy; 2017
+    </span>
+  </div>
+</footer>
 
         <!-- partial -->
       </div>
@@ -347,6 +344,7 @@
   <script src="/lib/popper.js/dist/umd/popper.min.js"></script>
   <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/lib/chart.js/dist/Chart.min.js"></script>
+  <script src="/lib/jquery-confirm/dist/jquery-confirm.min.js"></script>
   <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NXz9eVnyJOA81wimI8WYE08kW_JMe8g&callback=initMap" async defer></script>-->
   <script src="js/off-canvas.js"></script>
   <script src="js/hoverable-collapse.js"></script>
@@ -360,4 +358,4 @@
 
 </body>
 
-<>
+</html>

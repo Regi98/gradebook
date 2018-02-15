@@ -3,7 +3,7 @@ var selectedFile;
 
 $(document).ready(function() {
   $("#uploadFirebase").hide();
-  // $("#tableCSV").hide();
+   $("#dvCSV").hide();
 });
 
 $(function () {
@@ -258,7 +258,6 @@ $(function () {
             const btnUploadFirebase = document.getElementById('uploadFirebase');
 
             btnUploadFirebase.addEventListener('click', e  => {
-              alert("Click!");
                   var $rowData =  $('#tableCSV').find('> tbody > tr').not(':last');
                   $.each($rowData, function(i, el) {
                   var x = i + 1;
@@ -307,7 +306,7 @@ $(function () {
             });
             }
             else if (role == "Admin") {
-              window.location = 'upload-students.html';
+              window.location = 'home-admin.html';
               console.log("Makalogin ya soy");
             }
             else{

@@ -14119,6 +14119,13 @@ table#subjectTable td:nth-child(1){display:none;}
   right: 5%;
   z-index: 999;
 }
+#alert-boxes-login {
+  font-size: 11px;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  z-index: 999;
+}
 /* Ensure that the demo table scrolls */
     th, td { white-space: nowrap; }
     div.dataTables_wrapper {
