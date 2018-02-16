@@ -39,6 +39,7 @@
     "run-sequence": "^1.2.2"
   },
   "scripts": {
+  "build": "gulp",
   "start": "node server.js",
   "postinstall": "gulp default",
   "test": "echo \"Error: no test specified\" && exit 1"
