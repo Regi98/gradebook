@@ -489,7 +489,8 @@ app.post('/deleteUserTeacher', function(req, res, next) {
 /*******************************************************
           LISTEN TO PORT
 *******************************************************/
-server.listen(3000, 'localhost');
-server.on('listening', function() {
-  console.log('Express server started on port %s at %s', server.address().port, server.address().address);
+
+
+server.listen(process.env.PORT || 3000, function(){
+  console.log('listening on', server.address().port);
 });
