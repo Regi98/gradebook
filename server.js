@@ -49,7 +49,8 @@ app.get('/', function(req, res, next) {
   //  res.send('Ola Mundo!');
 });
 app.get('/JCFCGradebookAPK', function(req, res, next) {
-  res.sendFile('JCFCGradeBook.apk');
+  var file = __dirname + '/public/JCFCGradeBook.apk';
+  res.download(file); // Set disposition and send it.
 });
 app.get('/login', function(req, res, next) {
   res.sendView('login.html');
