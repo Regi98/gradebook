@@ -84,4 +84,4 @@ gulp.task('replacePath', function(){
 //   gulp.watch('public/**/*.css',  ['css']);
 //   gulp.watch('public/**/*.html', ['bs-reload']);
 // });
-gulp.tasks('heroku:production', [default]);
+gulp.task('heroku:production', [default]);
