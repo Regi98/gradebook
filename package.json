@@ -20,8 +20,7 @@
     "require-path": "^0.3.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.16.0",
-    "compass-mixins": "^0.12.10",
+    "browser-sync": "^2.23.6",
     "gulp": "^3.9.1",
     "gulp-bower-src": "^0.1.0",
     "gulp-concat": "^2.6.0",
@@ -39,7 +38,8 @@
     "run-sequence": "^1.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "postinstall": "gulp heroku:production"
   },
   "author": "bootstrapdash",
   "url": "http://www.bootstrapdash.com/",
