@@ -141,12 +141,10 @@ $(function() {
             $.each($rowData, function(i, el) {
               var x = i + 1;
               var teacherID = $('#row' + x + 'cell0').val();
-              var password = $('#row' + x + 'cell2').val();
               var fname = $('#row' + x + 'cell1').val();
 
               $.post("/createUserTeacher", {
                 TID: teacherID,
-                password: password,
                 name: fname
               }, function(data) {
                 if (data === 'Submitted') {

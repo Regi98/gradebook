@@ -197,10 +197,8 @@ $(function() {
               var studentID = $('#row' + x + 'cell0').val();
               var fullName = $('#row' + x + 'cell1').val();
               var section = sectionCode;
-              var password = $('#row' + x + 'cell2').val();
               $.post("/createUserStudent", {
                 user: studentID,
-                password: password,
                 name: fullName,
                 section: sectionCode,
                 grLevel: secGrade

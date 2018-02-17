@@ -100,7 +100,7 @@ app.post('/createUserStudent', function(req, res, next) {
   const refSections = database.ref().child('Sections/');
 
   var user_name = req.body.user;
-  var password = req.body.password;
+  var password = '123456';
   var name = req.body.name;
   var section = req.body.section;
   var grLevel = req.body.grLevel;
@@ -123,6 +123,7 @@ app.post('/createUserStudent', function(req, res, next) {
       sectionCode: section,
       email: ""
     }).then(function() {
+      console.log("password: "+password);
       console.log("Uploaded in database");
       res.end("Submitted");
     }).catch(function(error) {
@@ -247,7 +248,7 @@ app.post('/createUserTeacher', function(req, res, next) {
   const refSections = database.ref().child('Sections/');
 
   var user_name = req.body.TID;
-  var password = req.body.password;
+  var password = '123456';
   var name = req.body.name;
   var role = "Teacher";
   var email = user_name + "@jcfc-gradebook.com";
