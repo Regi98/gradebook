@@ -77,7 +77,7 @@ $(function() {
             var name = snap.child("fullname").val();
             var email = snap.child("email").val();
             //Get the parent key of editing row
-              $("#datatable-buttons").DataTable().row.remove([TID, name, email, '<button id="btnResetPw" type="button" class="btn btn-sm btn-secondary mr-2">Reset Password</button>', '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
+              $("#datatable-buttons").DataTable().row().remove([TID, name, email, '<button id="btnResetPw" type="button" class="btn btn-sm btn-secondary mr-2">Reset Password</button>', '<td><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i></td>']).draw();
           });
 
           //CSV TO TEXTBOX
@@ -138,6 +138,8 @@ $(function() {
           const btnUploadFirebase = document.getElementById('uploadFirebaseA');
           btnUploadFirebase.addEventListener('click', e => {
             var $rowData = $('#tableCSVaccounts').find('> tbody > tr').not(':last');
+            var rowCount = $('#tableCSVaccounts').find('> tbody > tr').not(':last').length;
+            var teacherCount = 0;
             $.each($rowData, function(i, el) {
               var x = i + 1;
               var teacherID = $('#row' + x + 'cell0').val();
@@ -148,8 +150,14 @@ $(function() {
                 name: fname
               }, function(data) {
                 if (data === 'Submitted') {
-                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Accounts has been uploaded.</div>');
-                  $('.alert-success').delay(4000).fadeOut('slow');
+                  var x = i+1;
+                  alert("x "+x);
+                  alert("rowcount "+rowCount);
+                  teacherCount = teacherCount + 1;
+                  if(x  == rowCount) {
+                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable teacher"><strong>Success!</strong> '+teacherCount+' Teacher Accounts has been uploaded.</div>');
+                  $('.alert-success.teacher').delay(4000).fadeOut('slow');
+                }
                 } else {
                   $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">' + data + '</div>');
                   $('.alert-danger').delay(4000).fadeOut('slow');
@@ -187,7 +195,7 @@ $(function() {
               name: txtfName,
             }, function(data) {
               if (data === 'Submitted') {
-                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Accounts has been uploaded.</div>');
+                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><strong>Success!</strong> 1 Teacher Account has been uploaded.</div>');
                 $('.alert-success').delay(4000).fadeOut('slow');
               } else {
                 $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable">&nbsp;' + data + '</div>');
@@ -295,7 +303,7 @@ $(function() {
             //clicked row
             var $row = $(this).closest("tr");
             var TID = $row.find("td:nth-child(1)").html();
-            //REMOVE STUDENT
+            //REMOVE TEACHE
             $.post("/deleteUserTeacher", {
               user: TID
             }, function(data) {
