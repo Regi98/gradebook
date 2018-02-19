@@ -139,7 +139,6 @@ $(function() {
           btnUploadFirebase.addEventListener('click', e => {
             var $rowData = $('#tableCSVaccounts').find('> tbody > tr').not(':last');
             var rowCount = $('#tableCSVaccounts').find('> tbody > tr').not(':last').length;
-            var teacherCount = 0;
             $.each($rowData, function(i, el) {
               var x = i + 1;
               var teacherID = $('#row' + x + 'cell0').val();
@@ -151,11 +150,8 @@ $(function() {
               }, function(data) {
                 if (data === 'Submitted') {
                   var x = i+1;
-                  alert("x "+x);
-                  alert("rowcount "+rowCount);
-                  teacherCount = teacherCount + 1;
                   if(x  == rowCount) {
-                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable teacher"><strong>Success!</strong> '+teacherCount+' Teacher Accounts has been uploaded.</div>');
+                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable teacher"><strong>Success!</strong> '+x+' Teacher Accounts has been uploaded.</div>');
                   $('.alert-success.teacher').delay(4000).fadeOut('slow');
                 }
                 } else {
