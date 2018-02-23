@@ -96,6 +96,7 @@ $(function() {
                   var newPassword = $("#password").val();
                   var passwordCount = $("#password").val().length;
                   alert(passwordCount);
+                  if (currentName != newFullname) {
                     currentUser.updateProfile({
                       displayName: newFullname
                     }).then(function() {
@@ -111,8 +112,11 @@ $(function() {
                       });
                     }).catch(function(error) {
                       // An error happened.
-                      $('#alert-danger-name').removeClass('hide');
+                      $('#alert-success-name').removeClass('hide');
                     });
+                  } else {
+                    console.log("No change in name");
+                  }
                   if (passwordCount >= 6) {
                     currentUser.updatePassword(newPassword).then(function() {
                       // Update successful.
