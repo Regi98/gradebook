@@ -95,8 +95,6 @@ $(function() {
                   var emailCount = $("#email").val().length;
                   var newPassword = $("#password").val();
                   var passwordCount = $("#password").val().length;
-                  alert(passwordCount);
-                  if (currentName != newFullname) {
                     currentUser.updateProfile({
                       displayName: newFullname
                     }).then(function() {
@@ -114,9 +112,6 @@ $(function() {
                       // An error happened.
                       $('#alert-success-name').removeClass('hide');
                     });
-                  } else {
-                    console.log("No change in name");
-                  }
                   if (passwordCount >= 6) {
                     currentUser.updatePassword(newPassword).then(function() {
                       // Update successful.
