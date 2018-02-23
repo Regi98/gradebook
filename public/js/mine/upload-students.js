@@ -193,7 +193,6 @@ $(function() {
             const secGrade = $.trim(arr[1]);
             var $rowData = $('#tableCSVaccounts').find('> tbody > tr');
             var rowCount = $('#tableCSVaccounts').find('> tbody > tr').length;
-            var studentCount = 0;
             $.each($rowData, function(i, el) {
               var x = i + 1;
               var studentID = $('#row' + x + 'cell0').val();
@@ -207,9 +206,8 @@ $(function() {
               }, function(data) {
                 if (data === 'Submitted') {
                   var x = i+1;
-                  studentCount = studentCount + 1;
                   if(x  == rowCount) {
-                    $('#alert-boxes').append('<div class="alert alert-success alert-dismissable student"><strong>Success!</strong> '+studentCount+' Student Accounts has been uploaded.</div>');
+                    $('#alert-boxes').append('<div class="alert alert-success alert-dismissable student"><strong>Success!</strong> '+x+' Student Accounts has been uploaded.</div>');
                      $('.alert-success.student').delay(4000).fadeOut('slow');
                   }
                 } else {
