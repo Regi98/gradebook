@@ -48,6 +48,10 @@ app.get('/', function(req, res, next) {
   res.sendFile('index.html');
   //  res.send('Ola Mundo!');
 });
+app.get('/JCFCGradebookAPK', function(req, res, next) {
+  var file = __dirname + '/public/JCFCGradeBook.apk';
+  res.download(file); // Set disposition and send it.
+});
 app.get('/login', function(req, res, next) {
   res.sendView('login.html');
 });
@@ -100,19 +104,20 @@ app.post('/createUserStudent', function(req, res, next) {
   const refSections = database.ref().child('Sections/');
 
   var user_name = req.body.user;
-  var password = req.body.password;
+  var password = '123456';
   var name = req.body.name;
   var section = req.body.section;
   var grLevel = req.body.grLevel;
 
   var email = user_name + "@jcfc-gradebook.com";
-
+  // var studentCount = 0;
   admin.auth().createUser({
     email: email,
     password: password,
     displayName: name,
     disabled: false
   }).then(function(userRecord) {
+    // studentCount = studentCount + 1;
     // See the UserRecord reference doc for the contents of userRecord.
     //Update in database
     const refStudentsUp = database.ref().child('Students/' + userRecord.uid);
@@ -123,8 +128,9 @@ app.post('/createUserStudent', function(req, res, next) {
       sectionCode: section,
       email: ""
     }).then(function() {
+      console.log("password: "+password);
       console.log("Uploaded in database");
-      res.end("Submitted");
+      res.end('Submitted');
     }).catch(function(error) {
       res.end(error.message);
       console.log(error.message);
@@ -238,6 +244,87 @@ app.post('/deleteUserStudent', function(req, res, next) {
     });
   });
 });
+app.post('/deleteAllStudent', function(req, res, next) {
+  //create references
+  var database = admin.database();
+  const refStudentsDel = database.ref().child('Students');
+  // const refSubjects = database.ref().child('Subjects/');
+  // const refUsers = database.ref().child('users/');
+  refStudentsDel.on("child_added", function(snapshot) {
+    console.log("Na trigger");
+    var uid = snapshot.key;
+    console.log(uid);
+    admin.auth().deleteUser(uid).then(function(userRecord) {
+      // See the UserRecord reference doc for the contents of userRecord.
+      //Delete in database
+      refStudentsDel.child(uid).remove().then(function() {
+        console.log("Student deleted!");
+          res.end("Submitted");
+        }).catch(function(error) {
+          res.end(error.message);
+          console.log(error.message);
+          console.log("Student not deleted!");
+        });
+
+      }).catch(function(error) {
+        res.end(error.message);
+        console.log(error.message);
+        console.log("User not deleted!");
+      });
+  });
+  });
+/*******************************************************
+          APP POST SECTION & SUBJCTS
+*******************************************************/
+// app.post('/addSection', function(req, res, next) {
+//   //create references
+//   var database = admin.database();
+//   const refSections = database.ref().child('Sections/');
+//
+//   var user_name = req.body.TID;
+//   var password = req.body.password;
+//   var name = req.body.name;
+//   var role = "Teacher";
+//   var email = user_name + "@jcfc-gradebook.com";
+//
+//   admin.auth().createUser({
+//       email: email,
+//       displayName: name,
+//       password: password,
+//       disabled: false
+//     })
+//     .then(function(userRecord) {
+//       // See the UserRecord reference doc for the contents of userRecord.
+//       //Update in database
+//       const refTeachersUp = database.ref().child('Teachers/' + userRecord.uid);
+//       refTeachersUp.update({
+//         TID: user_name,
+//         fullname: name,
+//         email: ""
+//       }).then(function() {
+//         //Add to users table
+//         var pushedUser = database.ref('users/' + userRecord.uid).update({
+//           role: "Teacher",
+//           fullname: name
+//         });
+//         res.end("Submitted");
+//       }).catch(function(error) {
+//         res.end(error.message);
+//         console.log(error.message);
+//         console.log("User not Created!");
+//       });
+//       res.end("Submitted");
+//       console.log("Successfully created new user:", userRecord.uid);
+//     }).catch(function(error) {
+//       res.end(error.message);
+//       console.log(error.message);
+//     });
+//   console.log("User name: " + user_name + ", password is " + password);
+// });
+/*******************************************************
+          LISTEN TO PORT
+*******************************************************/
+
 /*******************************************************
           APP POST TEACHER
 *******************************************************/
@@ -247,7 +334,7 @@ app.post('/createUserTeacher', function(req, res, next) {
   const refSections = database.ref().child('Sections/');
 
   var user_name = req.body.TID;
-  var password = req.body.password;
+  var password = '123456';
   var name = req.body.name;
   var role = "Teacher";
   var email = user_name + "@jcfc-gradebook.com";
@@ -410,86 +497,6 @@ app.post('/deleteUserTeacher', function(req, res, next) {
     console.log(error.message);
   });
 });
-// app.post('/deleteAllStudent', function(req, res, next) {
-//   //create references
-//   var database = admin.database();
-//   const refStudentsDel = database.ref().child('Students');
-//   // const refSubjects = database.ref().child('Subjects/');
-//   // const refUsers = database.ref().child('users/');
-//   refStudentsDel.on("child_added", function(snapshot) {
-//     var uid = snapshot.key;
-//     console.log(uid);
-//     admin.auth().deleteUser(uid).then(function(userRecord) {
-//       // See the UserRecord reference doc for the contents of userRecord.
-//       //Delete in database
-//       refStudentsDel.child(uid).remove().then(function() {
-//         console.log("Student deleted!");
-//           res.end("Submitted");
-//         }).catch(function(error) {
-//           res.end(error.message);
-//           console.log(error.message);
-//           console.log("Student not deleted!");
-//         });
-//
-//       }).catch(function(error) {
-//         res.end(error.message);
-//         console.log(error.message);
-//         console.log("User not deleted!");
-//       });
-//   });
-//   });
-/*******************************************************
-          APP POST SECTION & SUBJCTS
-*******************************************************/
-// app.post('/addSection', function(req, res, next) {
-//   //create references
-//   var database = admin.database();
-//   const refSections = database.ref().child('Sections/');
-//
-//   var user_name = req.body.TID;
-//   var password = req.body.password;
-//   var name = req.body.name;
-//   var role = "Teacher";
-//   var email = user_name + "@jcfc-gradebook.com";
-//
-//   admin.auth().createUser({
-//       email: email,
-//       displayName: name,
-//       password: password,
-//       disabled: false
-//     })
-//     .then(function(userRecord) {
-//       // See the UserRecord reference doc for the contents of userRecord.
-//       //Update in database
-//       const refTeachersUp = database.ref().child('Teachers/' + userRecord.uid);
-//       refTeachersUp.update({
-//         TID: user_name,
-//         fullname: name,
-//         email: ""
-//       }).then(function() {
-//         //Add to users table
-//         var pushedUser = database.ref('users/' + userRecord.uid).update({
-//           role: "Teacher",
-//           fullname: name
-//         });
-//         res.end("Submitted");
-//       }).catch(function(error) {
-//         res.end(error.message);
-//         console.log(error.message);
-//         console.log("User not Created!");
-//       });
-//       res.end("Submitted");
-//       console.log("Successfully created new user:", userRecord.uid);
-//     }).catch(function(error) {
-//       res.end(error.message);
-//       console.log(error.message);
-//     });
-//   console.log("User name: " + user_name + ", password is " + password);
-// });
-/*******************************************************
-          LISTEN TO PORT
-*******************************************************/
-
 
 server.listen(process.env.PORT || 3000, function(){
   console.log('listening on', server.address().port);

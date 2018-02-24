@@ -192,29 +192,30 @@ $(function() {
             const sectionCode = $.trim(arr[0]);
             const secGrade = $.trim(arr[1]);
             var $rowData = $('#tableCSVaccounts').find('> tbody > tr');
+            var rowCount = $('#tableCSVaccounts').find('> tbody > tr').length;s
             $.each($rowData, function(i, el) {
               var x = i + 1;
               var studentID = $('#row' + x + 'cell0').val();
               var fullName = $('#row' + x + 'cell1').val();
               var section = sectionCode;
-              var password = $('#row' + x + 'cell2').val();
               $.post("/createUserStudent", {
                 user: studentID,
-                password: password,
                 name: fullName,
                 section: sectionCode,
                 grLevel: secGrade
               }, function(data) {
                 if (data === 'Submitted') {
-                  $('#alert-boxes').append('<div class="alert alert-success alert-dismissable">Accounts has been uploaded.</div>');
-                  $('.alert-success').delay(4000).fadeOut('slow');
+                  var x = i+1;
+                  if(x  == rowCount) {
+                    $('#alert-boxes').append('<div class="alert alert-success alert-dismissable student"><strong>Success!</strong> '+x+' Student Accounts has been uploaded.</div>');
+                     $('.alert-success.student').delay(4000).fadeOut('slow');
+                  }
                 } else {
                   $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"> &nbsp;' + data + '</div>');
                   $('.alert-danger').delay(4000).fadeOut('slow');
 
                 }
               });
-
             });
           });
           //SELECT SECTION
@@ -266,7 +267,7 @@ $(function() {
               grLevel: grLevel
             }, function(data) {
               if (data === 'Submitted') {
-                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> Account has been uploaded.</div>');
+                $('#alert-boxes').append('<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Success!</strong> 1 Student Account has been uploaded.</div>');
                 $('.alert-success').delay(4000).fadeOut('slow');
               } else {
                 $('#alert-boxes').append('<div class="alert alert-danger alert-dismissable"> &nbsp;' + data + '</div>');
